@@ -2,6 +2,7 @@ package com.sonunayan48.android.covidtracker;
 
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,6 +56,15 @@ public class StateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_state);
+        Bundle data = getIntent().getExtras();
+        if (data!=null){
+            String websiteStr = data.getString("website");
+            if (websiteStr != null) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(websiteStr));
+                startActivity(intent);
+            }
+        }
         stateListRecycler = findViewById(R.id.state_list);
         progressBar = findViewById(R.id.progress_circular);
         mConnectionText = findViewById(R.id.connection_text);
