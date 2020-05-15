@@ -1,5 +1,6 @@
 package com.sonunayan48.android.covidtracker;
 
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,6 +51,7 @@ public class StateActivity extends AppCompatActivity {
 
 
     }
+
 
     private class GetStateResults extends AsyncTask<Void, Void, Void> {
 
@@ -100,7 +103,13 @@ public class StateActivity extends AppCompatActivity {
             });
             LinearLayoutManager manager = new LinearLayoutManager(StateActivity.this);
             stateListRecycler.setLayoutManager(manager);
-            adapter = new StateListAdapter(stateList);
+            adapter = new StateListAdapter(stateList, new StateListAdapter.ListItemClickListner() {
+                @Override
+                public void onListClick(int itemIndex) {
+                    Intent intent = new Intent(getApplicationContext(), StateDetailWithDistrictActivity.class);
+                    startActivity(intent);
+                }
+            });
             stateListRecycler.setAdapter(adapter);
         }
     }
