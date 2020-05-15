@@ -2,12 +2,14 @@ package com.sonunayan48.android.covidtracker;
 
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,12 +21,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class StateActivity extends AppCompatActivity {
     private static final String URLSTRING = "https://covid-19india-api.herokuapp.com/v2.0/state_data";
     private RecyclerView stateListRecycler;
     private StateListAdapter adapter;
-    public static ArrayList<String> stateList;
+    public static ArrayList<StateClass> stateList;
     private ProgressBar progressBar;
     private TextView mConnectionText;
 
@@ -73,7 +76,7 @@ public class StateActivity extends AppCompatActivity {
                         String confirmed = tempObject.getString("confirmed");
                         String recoverd = tempObject.getString("recovered");
                         String death = tempObject.getString("deaths");
-                        stateList.add(name);
+                        stateList.add(new StateClass(name, confirmed, active, recoverd, death));
                     }
                     Log.d("TAG", "Fetched");
 
@@ -84,15 +87,23 @@ public class StateActivity extends AppCompatActivity {
             return null;
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         protected void onPostExecute(Void aVoid) {
             progressBar.setVisibility(View.INVISIBLE);
             super.onPostExecute(aVoid);
+            stateList.sort(new Comparator<StateClass>() {
+                @Override
+                public int compare(StateClass o1, StateClass o2) {
+                    return Integer.parseInt(o2.getmActive()) - Integer.parseInt(o1.getmActive());
+                }
+            });
             LinearLayoutManager manager = new LinearLayoutManager(StateActivity.this);
             stateListRecycler.setLayoutManager(manager);
             adapter = new StateListAdapter(stateList);
             stateListRecycler.setAdapter(adapter);
         }
     }
+
 
 }

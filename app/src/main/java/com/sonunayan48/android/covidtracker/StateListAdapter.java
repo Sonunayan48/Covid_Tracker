@@ -14,9 +14,9 @@ import java.util.ArrayList;
 
 public class StateListAdapter extends RecyclerView.Adapter<StateListAdapter.StateViewHolder> {
 
-    private ArrayList<String> stateList;
+    private ArrayList<StateClass> stateList;
 
-    StateListAdapter(ArrayList<String> arrayList){
+    StateListAdapter(ArrayList<StateClass> arrayList){
         stateList = arrayList;
     }
     @NonNull
@@ -43,15 +43,19 @@ public class StateListAdapter extends RecyclerView.Adapter<StateListAdapter.Stat
     class StateViewHolder extends RecyclerView.ViewHolder {
 
         private TextView stateName;
+        private TextView activeCases;
         public StateViewHolder(@NonNull View itemView) {
             super(itemView);
 
             stateName = itemView.findViewById(R.id.state_name);
+            activeCases = itemView.findViewById(R.id.active);
         }
 
         private void bind(int position){
-            String name = stateList.get(position);
+            StateClass state = stateList.get(position);
+            String name = state.getmName();
             stateName.setText(name);
+            activeCases.setText("Active: "+state.getmActive());
         }
     }
 }

@@ -5,24 +5,34 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     android:background="@drawable/curved_rectangle"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground">
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:elevation="16dp"
+        android:focusable="true">
 
         <TextView
             android:id="@+id/state_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:clickable="true"
-            android:elevation="16dp"
-            android:focusable="true"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
+            android:textSize="16sp"
             tools:text="State Name" />
-    </FrameLayout>
+        <TextView
+            android:id="@+id/active"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_alignParentEnd="true"
+            android:textColor="#9E2FB1"
+            android:textSize="16sp"
+            tools:text="Active"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
 
 </LinearLayout>
