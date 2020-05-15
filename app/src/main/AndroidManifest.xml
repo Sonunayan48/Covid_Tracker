@@ -12,8 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StateDetailWithDistrictActivity"
+        <activity android:name=".AboutActivity"
+            android:screenOrientation="portrait"
+            android:label="About"
+            android:parentActivityName=".StateActivity">
+        </activity>
+        <activity
+            android:name=".StateDetailWithDistrictActivity"
             android:label="State Detail"
+            android:parentActivityName=".StateActivity"
             android:screenOrientation="portrait">
 
         </activity>
