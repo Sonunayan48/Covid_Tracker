@@ -107,6 +107,8 @@ public class StateActivity extends AppCompatActivity {
                 @Override
                 public void onListClick(int itemIndex) {
                     Intent intent = new Intent(getApplicationContext(), StateDetailWithDistrictActivity.class);
+                    StateClass clickedState = stateList.get(itemIndex);
+                    intent.putExtra("state", clickedState);
                     startActivity(intent);
                 }
             });

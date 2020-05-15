@@ -1,6 +1,8 @@
 package com.sonunayan48.android.covidtracker;
 
-public class StateClass {
+import java.io.Serializable;
+
+public class StateClass implements Serializable {
     private String mName;
     private String mConfirmed;
     private String mActive;
