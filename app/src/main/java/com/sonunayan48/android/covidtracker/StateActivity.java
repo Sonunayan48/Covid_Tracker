@@ -36,6 +36,7 @@ public class StateActivity extends AppCompatActivity {
     public static ArrayList<StateClass> stateList;
     private ProgressBar progressBar;
     private TextView mConnectionText;
+    private static final String SHARE_URL = "https://covidtracker48.page.link/downlaod";
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -48,8 +49,26 @@ public class StateActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case R.id.about:
                 startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                break;
+            case R.id.share:
+                shareApp();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void shareApp() {
+        String messageText = "Hey There, Our lives have been impacted very badly due to the spread of *Novel "+
+                "Corona Virus* in India, but we are ready to face and win this challenge. "+
+                "Download the *Covid Tracker* android app to know the current data related to *COVID 19* in" +
+                " your *State or District* to stay alert. Download the app free from here: " +
+                SHARE_URL;
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, messageText);
+        sendIntent.setType("text/plain");
+        Intent shareIntent = Intent.createChooser(sendIntent, "Share the App using");
+        startActivity(shareIntent);
+
+
     }
 
     @Override

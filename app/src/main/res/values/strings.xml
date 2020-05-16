@@ -7,4 +7,6 @@
     <string name="total_deaths">TOTAL DEATHS</string>
     <string name="app_created_by">App Created by</string>
     <string name="data_source">Data Source: MyGov</string>
+    <string name="share_app">Share App</string>
+    <string name="about">About</string>
 </resources>
