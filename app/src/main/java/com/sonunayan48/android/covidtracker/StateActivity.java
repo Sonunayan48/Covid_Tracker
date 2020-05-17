@@ -41,6 +41,7 @@ public class StateActivity extends AppCompatActivity {
     private TextView activeCase;
     private TextView recovered;
     private TextView totalDeaths;
+    private TextView lastUpdate;
     private JSONObject obj;
 
     @Override
@@ -96,6 +97,7 @@ public class StateActivity extends AppCompatActivity {
         activeCase = findViewById(R.id.active_cases_count);
         recovered = findViewById(R.id.recovered_cases_count);
         totalDeaths = findViewById(R.id.death_cases_count);
+        lastUpdate = findViewById(R.id.last_update);
         stateList = new ArrayList<>();
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected()){
@@ -187,10 +189,12 @@ public class StateActivity extends AppCompatActivity {
             String confirmed = obj.getString("confirmed_cases");
             String recoverd = obj.getString("recovered_cases");
             String death = obj.getString("death_cases");
+            String update = obj.getString("last_updated");
             totalCases.setText(confirmed);
             activeCase.setText(active);
             recovered.setText(recoverd);
             totalDeaths.setText(death);
+            lastUpdate.setText("Last Updated: " + update);
         } catch (JSONException e) {
             e.printStackTrace();
         }
