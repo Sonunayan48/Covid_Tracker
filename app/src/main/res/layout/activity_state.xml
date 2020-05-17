@@ -1,28 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="bottom"
+    app:umanoDragView="@id/draggable"
+
+    app:umanoPanelHeight="150dp"
+    app:umanoScrollableView="@id/state_list"
     tools:context=".StateActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/state_list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
-    <ProgressBar
-        android:id="@+id/progress_circular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="invisible" />
+        <ProgressBar
+            android:id="@+id/progress_circular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="8dp"
+            android:layout_alignParentBottom="true"
+            android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/connection_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/no_internet_connection"
-        android:textColor="@android:color/darker_gray"
-        android:visibility="invisible" />
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/across_india"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/curved_rectangle_blue"
+                    android:elevation="8dp">
+
+                    <TextView
+                        android:id="@+id/total_cases_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@id/total_cases_count"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/total_cases"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/total_cases_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="4dp"
+                        android:text="0"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/curved_rectangle_orange"
+                    android:elevation="8dp">
+
+                    <TextView
+                        android:id="@+id/active_cases_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@id/active_cases_count"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/active_cases"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/active_cases_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="4dp"
+                        android:text="0"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/curved_rectangle_green"
+                    android:elevation="8dp">
+
+                    <TextView
+                        android:id="@+id/recovered_cases_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@id/recovered_cases_count"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/recovered"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/recovered_cases_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="4dp"
+                        android:text="0"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/curved_rectangle_red"
+                    android:elevation="8dp">
+
+                    <TextView
+                        android:id="@+id/death_cases_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@id/death_cases_count"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/total_deaths"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/death_cases_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="4dp"
+                        android:text="0"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/last_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/draggable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <View
+            android:id="@+id/dragger"
+            android:layout_marginTop="4dp"
+            android:layout_width="40dp"
+            android:layout_height="5dp"
+            android:background="@drawable/curved_rectangle_white"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/state_and_uts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dragger"
+            android:text="@string/states_and_uts"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@id/state_and_uts"
+            android:id="@+id/state_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/connection_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/no_internet_connection"
+            android:textColor="@android:color/darker_gray"
+            android:visibility="invisible" />
+    </RelativeLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -30,13 +29,19 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class StateActivity extends AppCompatActivity {
-    private static final String URLSTRING = "https://covid-19india-api.herokuapp.com/v2.0/state_data";
+    private static final String URLSTRINGINDIA = "https://covid-19india-api.herokuapp.com/v2.0/country_data";
+    private static final String URLSTRINGSTATE = "https://covid-19india-api.herokuapp.com/v2.0/state_data";
     private RecyclerView stateListRecycler;
     private StateListAdapter adapter;
     public static ArrayList<StateClass> stateList;
     private ProgressBar progressBar;
     private TextView mConnectionText;
     private static final String SHARE_URL = "https://covidtracker48.page.link/downlaod";
+    private TextView totalCases;
+    private TextView activeCase;
+    private TextView recovered;
+    private TextView totalDeaths;
+    private JSONObject obj;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -87,6 +92,10 @@ public class StateActivity extends AppCompatActivity {
         stateListRecycler = findViewById(R.id.state_list);
         progressBar = findViewById(R.id.progress_circular);
         mConnectionText = findViewById(R.id.connection_text);
+        totalCases = findViewById(R.id.total_cases_count);
+        activeCase = findViewById(R.id.active_cases_count);
+        recovered = findViewById(R.id.recovered_cases_count);
+        totalDeaths = findViewById(R.id.death_cases_count);
         stateList = new ArrayList<>();
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected()){
@@ -111,12 +120,12 @@ public class StateActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             NetworkUtils networkUtils = new NetworkUtils();
-            String jsonStr = networkUtils.makeRequestCall(URLSTRING);
-            JSONArray array;
+            String jsonStr = networkUtils.makeRequestCall(URLSTRINGSTATE);
+            String jsonStrIndia = networkUtils.makeRequestCall(URLSTRINGINDIA);
 
             if (jsonStr != null) {
                 try {
-                    array = new JSONArray(jsonStr);
+                    JSONArray array = new JSONArray(jsonStr);
                     JSONObject parentObject = array.getJSONObject(1);
                     JSONArray stateArray = parentObject.getJSONArray("state_data");
                     for (int i = 0; i < stateArray.length(); i++) {
@@ -134,6 +143,15 @@ public class StateActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+
+            if(jsonStrIndia != null){
+                try{
+                    JSONArray arrayIndia = new JSONArray(jsonStrIndia);
+                    obj = arrayIndia.getJSONObject(1);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
             return null;
         }
 
@@ -142,6 +160,7 @@ public class StateActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             progressBar.setVisibility(View.INVISIBLE);
             super.onPostExecute(aVoid);
+            setIndiaData();
             stateList.sort(new Comparator<StateClass>() {
                 @Override
                 public int compare(StateClass o1, StateClass o2) {
@@ -161,6 +180,21 @@ public class StateActivity extends AppCompatActivity {
             });
             stateListRecycler.setAdapter(adapter);
         }
+    }
+    private void setIndiaData(){
+        try {
+            String active = obj.getString("active_cases");
+            String confirmed = obj.getString("confirmed_cases");
+            String recoverd = obj.getString("recovered_cases");
+            String death = obj.getString("death_cases");
+            totalCases.setText(confirmed);
+            activeCase.setText(active);
+            recovered.setText(recoverd);
+            totalDeaths.setText(death);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
