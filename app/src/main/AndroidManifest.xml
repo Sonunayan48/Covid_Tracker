@@ -12,10 +12,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AboutActivity"
-            android:screenOrientation="portrait"
+
+        <activity
+            android:name=".SplashScreenActivity"
+            android:label="Splash Screen"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AboutActivity"
             android:label="About"
-            android:parentActivityName=".StateActivity">
+            android:parentActivityName=".StateActivity"
+            android:screenOrientation="portrait">
+
         </activity>
         <activity
             android:name=".StateDetailWithDistrictActivity"
@@ -26,13 +41,11 @@
         </activity>
         <activity
             android:name=".StateActivity"
+            android:parentActivityName=".SplashScreenActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
+
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false">
