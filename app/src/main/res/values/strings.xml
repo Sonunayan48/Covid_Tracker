@@ -11,4 +11,10 @@
     <string name="about">About</string>
     <string name="states_and_uts">States and UTs</string>
     <string name="across_india">Across India</string>
+    <string name="covid_tracker">Covid Tracker</string>
+    <string name="an_app_by">An App By</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
