@@ -24,6 +24,13 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
                 Intent startStateActivity = new Intent(SplashScreenActivity.this, StateActivity.class);
+                Bundle data = getIntent().getExtras();
+                if (data != null){
+                    String websiteStr = data.getString("website");
+                    if (websiteStr != null){
+                        startStateActivity.putExtra("website", websiteStr);
+                    }
+                }
                 SplashScreenActivity.this.startActivity(startStateActivity);
                 SplashScreenActivity.this.finish();
             }

@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     app:umanoDragView="@id/draggable"
-
     app:umanoPanelHeight="150dp"
     app:umanoScrollableView="@id/state_list"
     tools:context=".StateActivity">
@@ -19,21 +18,22 @@
             android:id="@+id/progress_circular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_margin="8dp"
-            android:layout_alignParentBottom="true"
             android:visibility="invisible" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/across_india"
                 android:layout_gravity="center_horizontal"
-                android:textSize="20sp"/>
+                android:text="@string/across_india"
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -178,12 +178,13 @@
                 android:layout_margin="20dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/last_update"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
@@ -192,27 +193,29 @@
         android:id="@+id/draggable"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <View
             android:id="@+id/dragger"
-            android:layout_marginTop="4dp"
             android:layout_width="40dp"
             android:layout_height="5dp"
-            android:background="@drawable/curved_rectangle_white"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/curved_rectangle_white" />
+
         <TextView
             android:id="@+id/state_and_uts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/dragger"
-            android:text="@string/states_and_uts"
             android:layout_centerHorizontal="true"
-            android:textSize="20sp"/>
+            android:text="@string/states_and_uts"
+            android:textSize="20sp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_below="@id/state_and_uts"
             android:id="@+id/state_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_below="@id/state_and_uts" />
 
         <TextView
             android:id="@+id/connection_text"
