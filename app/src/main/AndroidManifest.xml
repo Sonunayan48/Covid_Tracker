@@ -35,7 +35,8 @@
             android:name=".StateDetailWithDistrictActivity"
             android:label="State Detail"
             android:parentActivityName=".StateActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance">
 
         </activity>
         <activity

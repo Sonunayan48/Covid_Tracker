@@ -12,6 +12,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
     private TextView mActive;
     private TextView mRecovered;
     private TextView mDeath;
+    private TextView mAcrossState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         mActive = findViewById(R.id.active_cases_count);
         mRecovered = findViewById(R.id.recovered_cases_count);
         mDeath = findViewById(R.id.death_cases_count);
+        mAcrossState = findViewById(R.id.across_state);
     }
 
     private void setData(StateClass state){
@@ -37,5 +39,6 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         mActive.setText(state.getmActive());
         mRecovered.setText(state.getmRecovered());
         mDeath.setText(state.getmDeath());
+        mAcrossState.setText("Across " + state.getmName());
     }
 }
