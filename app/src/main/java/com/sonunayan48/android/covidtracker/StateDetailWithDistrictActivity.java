@@ -46,7 +46,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         setup();
         Intent startingIntent = getIntent();
         state = (StateClass) startingIntent.getSerializableExtra("state");
-        if (state != null){
+        if (state != null) {
             setData(state);
         }
         new GetDistrictData().execute();
@@ -127,6 +127,8 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
                 @Override
                 public void onListClick(int itemIndex) {
                     Intent intent = new Intent(getApplicationContext(), DistrictStateActivity.class);
+                    StateClass clickedDistrict = districtList.get(itemIndex);
+                    intent.putExtra("district", clickedDistrict);
                     startActivity(intent);
                 }
             }, R.anim.fade_transition_animation);

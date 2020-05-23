@@ -14,8 +14,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".DistrictStateActivity"
             android:label="District Details"
-            android:parentActivityName=".StateDetailWithDistrictActivity"
-            android:launchMode="singleInstance"
+            android:parentActivityName=".StateActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".SplashScreenActivity"
@@ -36,7 +35,6 @@
         <activity
             android:name=".StateDetailWithDistrictActivity"
             android:label="State Detail"
-            android:launchMode="singleInstance"
             android:parentActivityName=".StateActivity"
             android:screenOrientation="portrait"/>
         <activity
