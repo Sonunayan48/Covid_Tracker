@@ -172,12 +172,11 @@
             </LinearLayout>
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/last_update"
@@ -185,7 +184,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:textSize="14sp" />
-            </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="Data Source: MyGov|MoHFW"
+                    android:textSize="10sp"
+                     />
+            </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
 

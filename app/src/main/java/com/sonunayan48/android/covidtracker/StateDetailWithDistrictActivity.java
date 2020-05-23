@@ -1,6 +1,8 @@
 package com.sonunayan48.android.covidtracker;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -49,7 +52,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         if (state != null) {
             setData(state);
         }
-        new GetDistrictData().execute();
+        startNetworkCall();
     }
 
     private void setup(){
@@ -69,6 +72,39 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         mRecovered.setText(state.getmRecovered());
         mDeath.setText(state.getmDeath());
         mAcrossState.setText("Across " + state.getmName());
+    }
+
+    private void startNetworkCall(){
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected()) {
+            new GetDistrictData().execute();
+        } else {
+            createNetworkErrorDialog();
+        }
+    }
+
+    private void createNetworkErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Please connect to Internet and retry.");
+        builder.setTitle("No Internet Connection!");
+        builder.setCancelable(false);
+        builder.setIcon(R.drawable.ic_warning_black_24dp);
+        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                startNetworkCall();
+            }
+        });
+        builder.setNegativeButton("Exit App", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finishAffinity();
+            }
+        });
+        AlertDialog alertDialog = builder.show();
+        alertDialog.show();
     }
 
     private class GetDistrictData extends AsyncTask<Void, Void, Void>{

@@ -1,5 +1,6 @@
 package com.sonunayan48.android.covidtracker;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,12 +34,12 @@ import java.util.Comparator;
 public class StateActivity extends AppCompatActivity {
     private static final String URLSTRINGINDIA = "https://covid-19india-api.herokuapp.com/v2.0/country_data";
     private static final String URLSTRINGSTATE = "https://covid-19india-api.herokuapp.com/v2.0/state_data";
+    private static final String SHARE_URL = "https://covidtracker48.page.link/downlaod";
+    public static ArrayList<StateClass> stateList;
     private RecyclerView stateListRecycler;
     private StateListAdapter adapter;
-    public static ArrayList<StateClass> stateList;
     private ProgressBar progressBar;
     private TextView mConnectionText;
-    private static final String SHARE_URL = "https://covidtracker48.page.link/downlaod";
     private TextView totalCases;
     private TextView activeCase;
     private TextView recovered;
@@ -53,7 +55,7 @@ public class StateActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.about:
                 startActivity(new Intent(getApplicationContext(), AboutActivity.class));
                 break;
@@ -64,8 +66,8 @@ public class StateActivity extends AppCompatActivity {
     }
 
     private void shareApp() {
-        String messageText = "Hey There, Our lives have been impacted very badly due to the spread of *Novel "+
-                "Corona Virus* in India, but we are ready to face and win this challenge. "+
+        String messageText = "Hey There, Our lives have been impacted very badly due to the spread of *Novel " +
+                "Corona Virus* in India, but we are ready to face and win this challenge. " +
                 "Download the *Covid Tracker* android app to know the current data related to *COVID 19* in" +
                 " your *State or District* to stay alert. Download the app free from here: " +
                 SHARE_URL;
@@ -84,7 +86,7 @@ public class StateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_state);
         Bundle data = getIntent().getExtras();
-        if (data!=null){
+        if (data != null) {
             String websiteStr = data.getString("website");
             if (websiteStr != null) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -101,18 +103,62 @@ public class StateActivity extends AppCompatActivity {
         totalDeaths = findViewById(R.id.death_cases_count);
         lastUpdate = findViewById(R.id.last_update);
         stateList = new ArrayList<>();
+        startNetworkCall();
+    }
+
+    private void startNetworkCall(){
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected()){
+        if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected()) {
             new GetStateResults().execute();
-        }
-        else {
+            mConnectionText.setVisibility(View.INVISIBLE);
+        } else {
             mConnectionText.setVisibility(View.VISIBLE);
             lastUpdate.setText("No Internet Connection");
+            createNetworkErrorDialog();
         }
+    }
 
+    private void setIndiaData() {
+        try {
+            String active = obj.getString("active_cases");
+            String confirmed = obj.getString("confirmed_cases");
+            String recoverd = obj.getString("recovered_cases");
+            String death = obj.getString("death_cases");
+            String update = obj.getString("last_updated");
+            totalCases.setText(confirmed);
+            activeCase.setText(active);
+            recovered.setText(recoverd);
+            totalDeaths.setText(death);
+            lastUpdate.setText("Last Updated: " + update);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
+    private void createNetworkErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Please connect to Internet and retry.");
+        builder.setTitle("No Internet Connection!");
+        builder.setCancelable(false);
+        builder.setIcon(R.drawable.ic_warning_black_24dp);
+        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                startNetworkCall();
+            }
+        });
+        builder.setNegativeButton("Exit App", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finishAffinity();
+            }
+        });
+        AlertDialog alertDialog = builder.show();
+        alertDialog.show();
+    }
 
     private class GetStateResults extends AsyncTask<Void, Void, Void> {
 
@@ -149,8 +195,8 @@ public class StateActivity extends AppCompatActivity {
                 }
             }
 
-            if(jsonStrIndia != null){
-                try{
+            if (jsonStrIndia != null) {
+                try {
                     JSONArray arrayIndia = new JSONArray(jsonStrIndia);
                     obj = arrayIndia.getJSONObject(1);
                 } catch (JSONException e) {
@@ -186,23 +232,5 @@ public class StateActivity extends AppCompatActivity {
             stateListRecycler.setAdapter(adapter);
         }
     }
-    private void setIndiaData(){
-        try {
-            String active = obj.getString("active_cases");
-            String confirmed = obj.getString("confirmed_cases");
-            String recoverd = obj.getString("recovered_cases");
-            String death = obj.getString("death_cases");
-            String update = obj.getString("last_updated");
-            totalCases.setText(confirmed);
-            activeCase.setText(active);
-            recovered.setText(recoverd);
-            totalDeaths.setText(death);
-            lastUpdate.setText("Last Updated: " + update);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
 
 }
