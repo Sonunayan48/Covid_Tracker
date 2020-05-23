@@ -182,7 +182,7 @@ public class StateActivity extends AppCompatActivity {
                     intent.putExtra("state", clickedState);
                     startActivity(intent);
                 }
-            });
+            }, R.anim.rv_item_falldown_animation);
             stateListRecycler.setAdapter(adapter);
         }
     }

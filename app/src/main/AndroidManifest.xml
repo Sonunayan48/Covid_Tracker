@@ -12,7 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DistrictStateActivity"></activity>
+        <activity android:name=".DistrictStateActivity"
+            android:label="District Details"
+            android:parentActivityName=".StateDetailWithDistrictActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SplashScreenActivity"
             android:screenOrientation="portrait"
@@ -28,16 +32,16 @@
             android:name=".AboutActivity"
             android:label="About"
             android:parentActivityName=".StateActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".StateDetailWithDistrictActivity"
             android:label="State Detail"
             android:launchMode="singleInstance"
             android:parentActivityName=".StateActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".StateActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".MyFirebaseMessagingService"

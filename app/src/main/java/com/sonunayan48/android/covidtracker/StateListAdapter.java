@@ -5,6 +5,8 @@ import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,16 +19,20 @@ public class StateListAdapter extends RecyclerView.Adapter<StateListAdapter.Stat
 
     private final ListItemClickListner mListener;
     private ArrayList<StateClass> stateList;
+    private Context context;
+    private final int animFile;
 
-    StateListAdapter(ArrayList<StateClass> arrayList, ListItemClickListner listner) {
+    StateListAdapter(ArrayList<StateClass> arrayList, ListItemClickListner listner, int file) {
         stateList = arrayList;
         mListener = listner;
+        animFile = file;
     }
 
     @NonNull
     @Override
     public StateListAdapter.StateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+
+        context = parent.getContext();
         int layoutIdForStateList = R.layout.state_list;
         LayoutInflater inflater = LayoutInflater.from(context);
         boolean shouldAttachToParentImmediately = false;
@@ -36,6 +42,7 @@ public class StateListAdapter extends RecyclerView.Adapter<StateListAdapter.Stat
 
     @Override
     public void onBindViewHolder(@NonNull StateListAdapter.StateViewHolder holder, int position) {
+        holder.mParentLayout.setAnimation(AnimationUtils.loadAnimation(context, animFile));
         holder.bind(position);
     }
 
@@ -53,6 +60,7 @@ public class StateListAdapter extends RecyclerView.Adapter<StateListAdapter.Stat
         private TextView stateName;
         private TextView activeCases;
         private RelativeLayout mLayout;
+        private LinearLayout mParentLayout;
 
         public StateViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +69,7 @@ public class StateListAdapter extends RecyclerView.Adapter<StateListAdapter.Stat
             activeCases = itemView.findViewById(R.id.active);
             mLayout = itemView.findViewById(R.id.layout);
             mLayout.setOnClickListener(this);
+            mParentLayout = itemView.findViewById(R.id.parent_layout);
         }
 
         private void bind(int position) {

@@ -126,9 +126,10 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
             adapter = new StateListAdapter(districtList, new StateListAdapter.ListItemClickListner() {
                 @Override
                 public void onListClick(int itemIndex) {
-
+                    Intent intent = new Intent(getApplicationContext(), DistrictStateActivity.class);
+                    startActivity(intent);
                 }
-            });
+            }, R.anim.fade_transition_animation);
             districtView.setAdapter(adapter);
 
         }
