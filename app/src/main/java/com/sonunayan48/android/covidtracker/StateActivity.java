@@ -60,6 +60,11 @@ public class StateActivity extends AppCompatActivity {
                 break;
             case R.id.share:
                 shareApp();
+                break;
+            case R.id.download_ArogyaSetu:
+                downloadArogyaSetuApp();
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -77,6 +82,14 @@ public class StateActivity extends AppCompatActivity {
         startActivity(shareIntent);
 
 
+    }
+
+    public void downloadArogyaSetuApp() {
+        Uri arogyaSetuApp = Uri.parse("https://play.google.com/store/apps/details?id=nic.goi.aarogyasetu");
+        Intent downloadApp = new Intent(Intent.ACTION_VIEW, arogyaSetuApp);
+        if (downloadApp.resolveActivity(getPackageManager()) != null) {
+            startActivity(downloadApp);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
