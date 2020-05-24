@@ -18,18 +18,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="italic"
-        android:textSize="21sp"
+        android:textSize="16sp"
         android:layout_marginBottom="4dp"
         android:textColor="@android:color/black"
-        android:layout_above="@id/dev_name"
+        android:layout_above="@id/dev_name1"
         android:text="@string/app_created_by"/>
     <TextView
-        android:id="@+id/dev_name"
+        android:id="@+id/dev_name1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:text="Mayank Kumar"/>
+    <TextView
+        android:id="@+id/dev_name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/dev_name1"
+        android:textSize="20sp"
+        android:text="Priyanshu"/>
+    <TextView
+        android:id="@+id/dev_name3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/dev_name2"
+        android:textSize="20sp"
+        android:text="Shubham Shandilya"/>
     <TextView
         android:id="@+id/data_source"
         android:layout_width="wrap_content"
