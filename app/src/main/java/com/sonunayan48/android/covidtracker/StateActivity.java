@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -106,7 +105,7 @@ public class StateActivity extends AppCompatActivity {
         startNetworkCall();
     }
 
-    private void startNetworkCall(){
+    private void startNetworkCall() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected()) {
             new GetStateResults().execute();
@@ -206,18 +205,19 @@ public class StateActivity extends AppCompatActivity {
             return null;
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         protected void onPostExecute(Void aVoid) {
             progressBar.setVisibility(View.INVISIBLE);
             super.onPostExecute(aVoid);
             setIndiaData();
-            stateList.sort(new Comparator<StateClass>() {
-                @Override
-                public int compare(StateClass o1, StateClass o2) {
-                    return Integer.parseInt(o2.getmActive()) - Integer.parseInt(o1.getmActive());
-                }
-            });
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                stateList.sort(new Comparator<StateClass>() {
+                    @Override
+                    public int compare(StateClass o1, StateClass o2) {
+                        return Integer.parseInt(o2.getmActive()) - Integer.parseInt(o1.getmActive());
+                    }
+                });
+            }
             LinearLayoutManager manager = new LinearLayoutManager(StateActivity.this);
             stateListRecycler.setLayoutManager(manager);
             adapter = new StateListAdapter(stateList, new StateListAdapter.ListItemClickListner() {

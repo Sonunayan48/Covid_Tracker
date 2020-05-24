@@ -14,13 +14,11 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sonunayan48.android.covidtracker.Network.NetworkUtils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,16 +29,18 @@ import java.util.Iterator;
 public class StateDetailWithDistrictActivity extends AppCompatActivity {
 
     private static final String DISTRICT_URL = "https://api.covid19india.org/state_district_wise.json";
+    private static ArrayList<StateClass> districtList;
+    StateClass state;
     private TextView mTotal;
     private TextView mActive;
     private TextView mRecovered;
     private TextView mDeath;
     private TextView mAcrossState;
     private ProgressBar mProgressBar;
-    private static ArrayList<StateClass> districtList;
-    StateClass state;
     private RecyclerView districtView;
     private StateListAdapter adapter;
+    private TextView dataNotAvailable;
+    private boolean showDataUnavailable = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         startNetworkCall();
     }
 
-    private void setup(){
+    private void setup() {
         mTotal = findViewById(R.id.total_cases_count);
         mActive = findViewById(R.id.active_cases_count);
         mRecovered = findViewById(R.id.recovered_cases_count);
@@ -64,9 +64,10 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         mProgressBar = findViewById(R.id.progress_horizontal);
         districtList = new ArrayList<>();
         districtView = findViewById(R.id.district_list);
+        dataNotAvailable = findViewById(R.id.data_not_available);
     }
 
-    private void setData(StateClass state){
+    private void setData(StateClass state) {
         mTotal.setText(state.getmConfirmed());
         mActive.setText(state.getmActive());
         mRecovered.setText(state.getmRecovered());
@@ -74,7 +75,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         mAcrossState.setText("Across " + state.getmName());
     }
 
-    private void startNetworkCall(){
+    private void startNetworkCall() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected()) {
             new GetDistrictData().execute();
@@ -107,7 +108,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private class GetDistrictData extends AsyncTask<Void, Void, Void>{
+    private class GetDistrictData extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -119,15 +120,21 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             NetworkUtils networkUtils = new NetworkUtils();
             String jsonStr = networkUtils.makeRequestCall(DISTRICT_URL);
-            if (jsonStr != null){
-                try{
+            if (jsonStr != null) {
+                try {
                     JSONObject parentObj = new JSONObject(jsonStr);
-                    JSONObject stateObject = parentObj.getJSONObject(state.getmName());
+                    JSONObject stateObject;
+                    if ((state.getmName()).equals("Telengana")){
+                        stateObject = parentObj.getJSONObject("Telangana");
+                    }
+                    else {
+                        stateObject = parentObj.getJSONObject(state.getmName());
+                    }
                     JSONObject districtObject = stateObject.getJSONObject("districtData");
                     Iterator e = districtObject.keys();
-                    while (e.hasNext()){
+                    while (e.hasNext()) {
                         String districtName = (String) e.next();
-                        if (!districtName.equals("Unknown")){
+                        if (!districtName.equals("Unknown")) {
                             JSONObject obj = districtObject.getJSONObject(districtName);
                             String confirmed = obj.getString("confirmed");
                             String active = obj.getString("active");
@@ -141,22 +148,28 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    showDataUnavailable = true;
                 }
             }
             return null;
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         protected void onPostExecute(Void aVoid) {
             mProgressBar.setVisibility(View.INVISIBLE);
             super.onPostExecute(aVoid);
-            districtList.sort(new Comparator<StateClass>() {
-                @Override
-                public int compare(StateClass o1, StateClass o2) {
-                    return Integer.parseInt(o2.getmActive()) - Integer.parseInt(o1.getmActive());
-                }
-            });
+            if (showDataUnavailable){
+                dataNotAvailable.setText("District Data Unavailable for "+state.getmName());
+                dataNotAvailable.setVisibility(View.VISIBLE);
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                districtList.sort(new Comparator<StateClass>() {
+                    @Override
+                    public int compare(StateClass o1, StateClass o2) {
+                        return Integer.parseInt(o2.getmActive()) - Integer.parseInt(o1.getmActive());
+                    }
+                });
+            }
             LinearLayoutManager manager = new LinearLayoutManager(StateDetailWithDistrictActivity.this);
             districtView.setLayoutManager(manager);
             adapter = new StateListAdapter(districtList, new StateListAdapter.ListItemClickListner() {
