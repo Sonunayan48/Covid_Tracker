@@ -2,6 +2,8 @@ package com.sonunayan48.android.covidtracker;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -22,6 +24,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.sonunayan48.android.covidtracker.Network.NetworkUtils;
 
 import org.json.JSONArray;
@@ -30,11 +35,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 
 public class StateActivity extends AppCompatActivity {
     private static final String URLSTRINGINDIA = "https://covid-19india-api.herokuapp.com/v2.0/country_data";
     private static final String URLSTRINGSTATE = "https://covid-19india-api.herokuapp.com/v2.0/state_data";
     private static final String SHARE_URL = "https://covidtracker48.page.link/downlaod";
+    private FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
+    private static final String LATEST_VERSION_KEY = "latest_version";
     public static ArrayList<StateClass> stateList;
     private RecyclerView stateListRecycler;
     private StateListAdapter adapter;
@@ -108,6 +116,24 @@ public class StateActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }
+        remoteConfig.setConfigSettingsAsync(new FirebaseRemoteConfigSettings.Builder()
+            .setDeveloperModeEnabled(true)
+            .build());
+        HashMap<String, Object> defaults = new HashMap<>();
+        defaults.put(LATEST_VERSION_KEY, 1.0);
+        remoteConfig.setDefaults(defaults);
+        remoteConfig.fetch().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                remoteConfig.activateFetched();
+                try {
+                    checkForUpdates();
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         stateListRecycler = findViewById(R.id.state_list);
         progressBar = findViewById(R.id.progress_circular);
         mConnectionText = findViewById(R.id.connection_text);
@@ -118,6 +144,41 @@ public class StateActivity extends AppCompatActivity {
         lastUpdate = findViewById(R.id.last_update);
         stateList = new ArrayList<>();
         startNetworkCall();
+    }
+
+    private void checkForUpdates() throws PackageManager.NameNotFoundException {
+        Double latestVersion = (Double) remoteConfig.getDouble(LATEST_VERSION_KEY);
+        PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
+        String versionStr = pInfo.versionName;
+        Double version = Double.parseDouble(versionStr);
+        if (latestVersion > version){
+            createUpdateDialog();
+        }
+        Log.d("TAG", versionStr);
+    }
+
+    private void createUpdateDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("A new version of the app is available. Update now to get the latest features.");
+        builder.setTitle("App Update Available!");
+        builder.setCancelable(false);
+        builder.setIcon(R.drawable.ic_update_black_24dp);
+        builder.setPositiveButton("Update Now", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(SHARE_URL));
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Later", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertDialog = builder.show();
+        alertDialog.show();
     }
 
     private void startNetworkCall() {
