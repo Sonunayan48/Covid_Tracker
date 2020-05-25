@@ -124,10 +124,9 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
                 try {
                     JSONObject parentObj = new JSONObject(jsonStr);
                     JSONObject stateObject;
-                    if ((state.getmName()).equals("Telengana")){
+                    if ((state.getmName()).equals("Telengana")) {
                         stateObject = parentObj.getJSONObject("Telangana");
-                    }
-                    else {
+                    } else {
                         stateObject = parentObj.getJSONObject(state.getmName());
                     }
                     JSONObject districtObject = stateObject.getJSONObject("districtData");
@@ -158,8 +157,8 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             mProgressBar.setVisibility(View.INVISIBLE);
             super.onPostExecute(aVoid);
-            if (showDataUnavailable){
-                dataNotAvailable.setText("District Data Unavailable for "+state.getmName());
+            if (showDataUnavailable) {
+                dataNotAvailable.setText("District Data Unavailable for " + state.getmName());
                 dataNotAvailable.setVisibility(View.VISIBLE);
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

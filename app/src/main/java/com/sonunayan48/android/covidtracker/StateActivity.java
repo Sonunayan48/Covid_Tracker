@@ -41,9 +41,9 @@ public class StateActivity extends AppCompatActivity {
     private static final String URLSTRINGINDIA = "https://covid-19india-api.herokuapp.com/v2.0/country_data";
     private static final String URLSTRINGSTATE = "https://covid-19india-api.herokuapp.com/v2.0/state_data";
     private static final String SHARE_URL = "https://covidtracker48.page.link/downlaod";
-    private FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
     private static final String LATEST_VERSION_KEY = "latest_version";
     public static ArrayList<StateClass> stateList;
+    private FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
     private RecyclerView stateListRecycler;
     private StateListAdapter adapter;
     private ProgressBar progressBar;
@@ -83,8 +83,9 @@ public class StateActivity extends AppCompatActivity {
         String messageText = "Hey There, Our lives have been impacted very badly due to the spread of *Novel " +
                 "Corona Virus* in India, but we are ready to face and win this challenge. " +
                 "Download the *Covid Tracker* android app to know the current data related to *COVID 19* in" +
-                " your *State or District* to stay alert. Download the app free from here: " +
-                SHARE_URL;
+                " your *State or District* to stay alert. Download the for app free from here: " +
+                SHARE_URL + "\nAlso Remember to *Share* the app to your *Friends and Family* so that they can" +
+                " also be alert and take all the precautions.";
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, messageText);
         sendIntent.setType("text/plain");
@@ -117,8 +118,8 @@ public class StateActivity extends AppCompatActivity {
             }
         }
         remoteConfig.setConfigSettingsAsync(new FirebaseRemoteConfigSettings.Builder()
-            .setDeveloperModeEnabled(true)
-            .build());
+                .setDeveloperModeEnabled(true)
+                .build());
         HashMap<String, Object> defaults = new HashMap<>();
         defaults.put(LATEST_VERSION_KEY, 1.0);
         remoteConfig.setDefaults(defaults);
@@ -151,7 +152,7 @@ public class StateActivity extends AppCompatActivity {
         PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
         String versionStr = pInfo.versionName;
         Double version = Double.parseDouble(versionStr);
-        if (latestVersion > version){
+        if (latestVersion > version) {
             createUpdateDialog();
         }
         Log.d("TAG", versionStr);

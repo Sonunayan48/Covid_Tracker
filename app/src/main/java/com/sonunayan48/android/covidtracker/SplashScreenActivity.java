@@ -1,7 +1,5 @@
 package com.sonunayan48.android.covidtracker;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,10 +8,15 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class SplashScreenActivity extends AppCompatActivity {
 
     private ImageView appIconImg;
-    /** Called when the activity is first created. */
+
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -28,15 +31,15 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         /** Duration of wait **/
         int SPLASH_DISPLAY_LENGTH = 2000;
-        new Handler().postDelayed(new Runnable(){
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
                 Intent startStateActivity = new Intent(SplashScreenActivity.this, StateActivity.class);
                 Bundle data = getIntent().getExtras();
-                if (data != null){
+                if (data != null) {
                     String websiteStr = data.getString("website");
-                    if (websiteStr != null){
+                    if (websiteStr != null) {
                         startStateActivity.putExtra("website", websiteStr);
                     }
                 }

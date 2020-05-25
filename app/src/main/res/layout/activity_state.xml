@@ -191,8 +191,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:text="Data Source: MyGov|MoHFW"
-                    android:textSize="10sp"
-                     />
+                    android:textSize="10sp" />
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>

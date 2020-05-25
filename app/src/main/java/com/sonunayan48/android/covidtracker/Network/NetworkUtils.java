@@ -11,11 +11,11 @@ import java.net.URL;
 
 public class NetworkUtils {
 
-    public NetworkUtils(){
+    public NetworkUtils() {
 
     }
 
-    public String makeRequestCall (String urlStr){
+    public String makeRequestCall(String urlStr) {
         String response = null;
         try {
             URL url = new URL(urlStr);
@@ -39,14 +39,14 @@ public class NetworkUtils {
         StringBuilder builder = new StringBuilder();
 
         String line;
-        try{
-            while((line = reader.readLine()) != null){
+        try {
+            while ((line = reader.readLine()) != null) {
                 builder.append(line).append("\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try{
+            try {
                 stream.close();
             } catch (IOException e) {
                 e.printStackTrace();

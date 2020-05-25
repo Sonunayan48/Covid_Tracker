@@ -25,16 +25,17 @@
             android:textColor="@android:color/black"
             android:textSize="16sp"
             tools:text="State Name" />
+
         <TextView
             android:id="@+id/active"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="16dp"
             android:textColor="#9E2FB1"
             android:textSize="16sp"
-            tools:text="Active"
-            android:layout_alignParentRight="true" />
+            tools:text="Active" />
     </RelativeLayout>
 
 </LinearLayout>

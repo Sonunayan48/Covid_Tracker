@@ -6,160 +6,170 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".DistrictStateActivity">
+
     <TextView
         android:id="@+id/across_district"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Across"
-        android:textSize="20sp"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="8dp"
-        android:layout_gravity="center_horizontal"/>
+        android:text="Across"
+        android:textSize="20sp" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/curved_rectangle_blue"
         android:layout_margin="4dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        >
+        android:layout_weight="1"
+        android:background="@drawable/curved_rectangle_blue">
+
         <TextView
             android:id="@+id/total_cases_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:text="@string/total_cases"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:layout_marginStart="16dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/total_cases_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:text="0"
             android:textColor="@android:color/black"
             android:textSize="25sp"
-            android:textStyle="bold"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp" />
+            android:textStyle="bold" />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/curved_rectangle_orange"
         android:layout_margin="4dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginRight="16dp"
+        android:layout_weight="1"
+        android:background="@drawable/curved_rectangle_orange">
+
         <TextView
             android:id="@+id/active_cases_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:text="@string/active_cases"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:layout_marginStart="16dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/active_cases_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:text="0"
             android:textColor="@android:color/black"
             android:textSize="25sp"
-            android:textStyle="bold"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp" />
+            android:textStyle="bold" />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/curved_rectangle_green"
         android:layout_margin="4dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginRight="16dp"
+        android:layout_weight="1"
+        android:background="@drawable/curved_rectangle_green">
+
         <TextView
             android:id="@+id/recovered_cases_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:text="@string/recovered"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:layout_marginStart="16dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/recovered_cases_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:text="0"
             android:textColor="@android:color/black"
             android:textSize="25sp"
-            android:textStyle="bold"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp" />
+            android:textStyle="bold" />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/curved_rectangle_red"
         android:layout_margin="4dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginRight="16dp"
+        android:layout_weight="1"
+        android:background="@drawable/curved_rectangle_red">
+
         <TextView
             android:id="@+id/death_cases_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:text="@string/total_deaths"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:layout_marginStart="16dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/death_cases_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:text="0"
             android:textColor="@android:color/black"
             android:textSize="25sp"
-            android:textStyle="bold"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp" />
+            android:textStyle="bold" />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
             android:text="NOTE: Some Data might not be
 available"
-            android:textSize="10sp"
-            android:layout_marginBottom="8dp"/>
+            android:textSize="10sp" />
     </RelativeLayout>
 
 

@@ -1,10 +1,10 @@
 package com.sonunayan48.android.covidtracker;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class DistrictStateActivity extends AppCompatActivity {
     private TextView mTotal;
@@ -13,6 +13,7 @@ public class DistrictStateActivity extends AppCompatActivity {
     private TextView mDeath;
     private TextView mAcrossDistrict;
     private StateClass district;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

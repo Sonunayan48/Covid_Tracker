@@ -1,7 +1,6 @@
 package com.sonunayan48.android.covidtracker;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,9 @@ import java.util.ArrayList;
 public class StateListAdapter extends RecyclerView.Adapter<StateListAdapter.StateViewHolder> {
 
     private final ListItemClickListner mListener;
+    private final int animFile;
     private ArrayList<StateClass> stateList;
     private Context context;
-    private final int animFile;
 
     StateListAdapter(ArrayList<StateClass> arrayList, ListItemClickListner listner, int file) {
         stateList = arrayList;

@@ -17,11 +17,11 @@
         <ProgressBar
             android:id="@+id/progress_horizontal"
             style="?android:attr/progressBarStyleHorizontal"
-            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:indeterminate="true" />
+            android:indeterminate="true"
+            android:visibility="invisible" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -210,7 +210,7 @@
             android:layout_below="@id/district"
             android:layout_centerHorizontal="true"
             android:textStyle="bold"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
 
         <androidx.recyclerview.widget.RecyclerView
