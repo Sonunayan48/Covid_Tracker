@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -64,7 +65,8 @@ public class StateActivity extends AppCompatActivity {
             case R.id.download_ArogyaSetu:
                 downloadArogyaSetuApp();
                 break;
-
+            case R.id.change_language:
+                Toast.makeText(this, "Feature coming soon", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

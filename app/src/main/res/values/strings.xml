@@ -19,4 +19,5 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="district_data">District Data</string>
     <string name="download_arogya_setu_app">Download Arogya Setu App</string>
+    <string name="change_language">Change Language</string>
 </resources>
