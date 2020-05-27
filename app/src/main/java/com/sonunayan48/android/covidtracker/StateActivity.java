@@ -97,7 +97,8 @@ public class StateActivity extends AppCompatActivity {
 
     public void downloadArogyaSetuApp() {
         Uri arogyaSetuApp = Uri.parse("https://play.google.com/store/apps/details?id=nic.goi.aarogyasetu");
-        Intent downloadApp = new Intent(Intent.ACTION_VIEW, arogyaSetuApp);
+        Uri arogyaSetuAppSam = Uri.parse("https://www.mygov.in/aarogya-setu-app/");
+        Intent downloadApp = new Intent(Intent.ACTION_VIEW, arogyaSetuAppSam);
         if (downloadApp.resolveActivity(getPackageManager()) != null) {
             startActivity(downloadApp);
         }
