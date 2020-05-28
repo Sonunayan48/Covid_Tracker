@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.sonunayan48.android.covidtracker.Network.NetworkUtils;
@@ -54,6 +55,7 @@ public class StateActivity extends AppCompatActivity {
     private TextView totalDeaths;
     private TextView lastUpdate;
     private JSONObject obj;
+    private FirebaseAnalytics mAnalytics;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,6 +111,8 @@ public class StateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_state);
+        mAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
+        Log.v("Analytics", "analytics fetched");
         Bundle data = getIntent().getExtras();
         if (data != null) {
             String websiteStr = data.getString("website");
