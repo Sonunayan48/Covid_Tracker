@@ -2,6 +2,7 @@ package com.sonunayan48.android.covidtracker;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
@@ -9,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +45,8 @@ public class StateActivity extends AppCompatActivity {
     private static final String URLSTRINGSTATE = "https://covid-19india-api.herokuapp.com/v2.0/state_data";
     private static final String SHARE_URL = "https://covidtracker48.page.link/downlaod";
     private static final String LATEST_VERSION_KEY = "latest_version";
+    private static final String SELECTED_LANGUAGE_INDEX = "selected_language_label";
+
     public static ArrayList<StateClass> stateList;
     private FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
     private RecyclerView stateListRecycler;
@@ -56,6 +60,7 @@ public class StateActivity extends AppCompatActivity {
     private TextView lastUpdate;
     private JSONObject obj;
     private FirebaseAnalytics mAnalytics;
+    private SharedPreferences preferences;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,9 +81,39 @@ public class StateActivity extends AppCompatActivity {
                 downloadArogyaSetuApp();
                 break;
             case R.id.change_language:
-                Toast.makeText(this, "Feature coming soon", Toast.LENGTH_SHORT).show();
+                openLangDialog();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openLangDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose Language");
+        String[] items = {"English", "Hindi"};
+        int selectedLanguage = preferences.getInt(SELECTED_LANGUAGE_INDEX, 0);
+        builder.setSingleChoiceItems(items, selectedLanguage, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch(which){
+                    case 0:
+                        changePreferences(0);
+                        dialog.cancel();
+                        break;
+                    case 1:
+                        changePreferences(1);
+                        dialog.cancel();
+                        break;
+                }
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void changePreferences(int lanIndex){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(SELECTED_LANGUAGE_INDEX, lanIndex);
+        editor.apply();
     }
 
     private void shareApp() {
@@ -149,6 +184,7 @@ public class StateActivity extends AppCompatActivity {
         totalDeaths = findViewById(R.id.death_cases_count);
         lastUpdate = findViewById(R.id.last_update);
         stateList = new ArrayList<>();
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         startNetworkCall();
     }
 
