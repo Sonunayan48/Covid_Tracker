@@ -28,6 +28,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage;
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage;
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslator;
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.sonunayan48.android.covidtracker.Network.NetworkUtils;
@@ -46,7 +50,7 @@ public class StateActivity extends AppCompatActivity {
     private static final String SHARE_URL = "https://covidtracker48.page.link/downlaod";
     private static final String LATEST_VERSION_KEY = "latest_version";
     private static final String SELECTED_LANGUAGE_INDEX = "selected_language_label";
-
+    private FirebaseTranslator translator;
     public static ArrayList<StateClass> stateList;
     private FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
     private RecyclerView stateListRecycler;
@@ -81,7 +85,8 @@ public class StateActivity extends AppCompatActivity {
                 downloadArogyaSetuApp();
                 break;
             case R.id.change_language:
-                openLangDialog();
+                Toast.makeText(this, "Feature comming soon", Toast.LENGTH_SHORT).show();
+                //openLangDialog();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -100,6 +105,7 @@ public class StateActivity extends AppCompatActivity {
                         dialog.cancel();
                         break;
                     case 1:
+                        translateToHindi();
                         changePreferences(1);
                         dialog.cancel();
                         break;
@@ -108,6 +114,26 @@ public class StateActivity extends AppCompatActivity {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void translateToHindi() {
+        translator.downloadModelIfNeeded()
+                .addOnSuccessListener(
+                        new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                translator.translate("Done").addOnSuccessListener(
+                                        new OnSuccessListener<String>() {
+                                            @Override
+                                            public void onSuccess(String s) {
+                                                Toast.makeText(StateActivity.this,
+                                                        s, Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                );
+                            }
+                        }
+                );
     }
 
     private void changePreferences(int lanIndex){
@@ -148,6 +174,11 @@ public class StateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_state);
         mAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         Log.v("Analytics", "analytics fetched");
+        FirebaseTranslatorOptions options = new FirebaseTranslatorOptions.Builder()
+                .setSourceLanguage(FirebaseTranslateLanguage.EN)
+                .setTargetLanguage(FirebaseTranslateLanguage.HI)
+                .build();
+        translator = FirebaseNaturalLanguage.getInstance().getTranslator(options);
         Bundle data = getIntent().getExtras();
         if (data != null) {
             String websiteStr = data.getString("website");
