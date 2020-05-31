@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sonunayan48.android.covidtracker.Network.NetworkUtils;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +41,8 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
     private RecyclerView districtView;
     private StateListAdapter adapter;
     private TextView dataNotAvailable;
+    private SlidingUpPanelLayout sliding;
+    private View slider;
     private boolean showDataUnavailable = false;
 
     @Override
@@ -52,6 +55,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         if (state != null) {
             setData(state);
         }
+        setupListener();
         startNetworkCall();
     }
 
@@ -65,6 +69,25 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         districtList = new ArrayList<>();
         districtView = findViewById(R.id.district_list);
         dataNotAvailable = findViewById(R.id.data_not_available);
+        sliding = findViewById(R.id.sliding);
+        slider = findViewById(R.id.dragger);
+    }
+
+    private void setupListener() {
+        sliding.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                if ("Collapsed".equalsIgnoreCase(newState.name())) {
+                    slider.setBackground(getDrawable(R.drawable.ic_expand_less_black_24dp));
+                } else if ("Expanded".equalsIgnoreCase(newState.name())) {
+                    slider.setBackground(getDrawable(R.drawable.ic_expand_more_black_24dp));
+                }
+            }
+        });
     }
 
     private void setData(StateClass state) {

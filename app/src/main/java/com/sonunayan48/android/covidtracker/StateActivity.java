@@ -35,6 +35,7 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOption
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.sonunayan48.android.covidtracker.Network.NetworkUtils;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,6 +66,8 @@ public class StateActivity extends AppCompatActivity {
     private JSONObject obj;
     private FirebaseAnalytics mAnalytics;
     private SharedPreferences preferences;
+    private SlidingUpPanelLayout sliding;
+    private View slider;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -216,7 +219,27 @@ public class StateActivity extends AppCompatActivity {
         lastUpdate = findViewById(R.id.last_update);
         stateList = new ArrayList<>();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sliding = findViewById(R.id.sliding);
+        slider = findViewById(R.id.dragger);
+        setupListener();
         startNetworkCall();
+    }
+
+    private void setupListener() {
+        sliding.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                if ("Collapsed".equalsIgnoreCase(newState.name())) {
+                    slider.setBackground(getDrawable(R.drawable.ic_expand_less_black_24dp));
+                } else if ("Expanded".equalsIgnoreCase(newState.name())) {
+                    slider.setBackground(getDrawable(R.drawable.ic_expand_more_black_24dp));
+                }
+            }
+        });
     }
 
     private void checkForUpdates() throws PackageManager.NameNotFoundException {

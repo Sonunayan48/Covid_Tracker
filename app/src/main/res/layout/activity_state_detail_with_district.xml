@@ -2,6 +2,7 @@
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sliding"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
@@ -44,63 +45,33 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/curved_rectangle_blue"
-                    android:elevation="8dp">
+                    style="@style/param_box"
+                    android:background="@drawable/curved_rectangle_blue">
 
                     <TextView
                         android:id="@+id/total_cases_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/param_label"
                         android:layout_above="@id/total_cases_count"
-                        android:layout_centerHorizontal="true"
-                        android:text="@string/total_cases"
-                        android:textColor="@android:color/black"
-                        android:textSize="15sp" />
+                        android:text="@string/total_cases" />
 
                     <TextView
                         android:id="@+id/total_cases_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_margin="4dp"
-                        android:text="0"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        style="@style/param_value" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/curved_rectangle_orange"
-                    android:elevation="8dp">
+                    style="@style/param_box"
+                    android:background="@drawable/curved_rectangle_orange">
 
                     <TextView
                         android:id="@+id/active_cases_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/param_label"
                         android:layout_above="@id/active_cases_count"
-                        android:layout_centerHorizontal="true"
-                        android:text="@string/active_cases"
-                        android:textColor="@android:color/black"
-                        android:textSize="15sp" />
+                        android:text="@string/active_cases" />
 
                     <TextView
                         android:id="@+id/active_cases_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_margin="4dp"
-                        android:text="0"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        style="@style/param_value" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -112,63 +83,33 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/curved_rectangle_green"
-                    android:elevation="8dp">
+                    style="@style/param_box"
+                    android:background="@drawable/curved_rectangle_green">
 
                     <TextView
                         android:id="@+id/recovered_cases_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/param_label"
                         android:layout_above="@id/recovered_cases_count"
-                        android:layout_centerHorizontal="true"
-                        android:text="@string/recovered"
-                        android:textColor="@android:color/black"
-                        android:textSize="15sp" />
+                        android:text="@string/recovered" />
 
                     <TextView
                         android:id="@+id/recovered_cases_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_margin="4dp"
-                        android:text="0"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        style="@style/param_value" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/curved_rectangle_red"
-                    android:elevation="8dp">
+                    style="@style/param_box"
+                    android:background="@drawable/curved_rectangle_red">
 
                     <TextView
                         android:id="@+id/death_cases_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/param_label"
                         android:layout_above="@id/death_cases_count"
-                        android:layout_centerHorizontal="true"
-                        android:text="@string/total_deaths"
-                        android:textColor="@android:color/black"
-                        android:textSize="15sp" />
+                        android:text="@string/total_deaths" />
 
                     <TextView
                         android:id="@+id/death_cases_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_margin="4dp"
-                        android:text="0"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        style="@style/param_value" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -188,11 +129,10 @@
 
         <View
             android:id="@+id/dragger"
-            android:layout_width="40dp"
-            android:layout_height="5dp"
+            android:layout_width="35dp"
+            android:layout_height="25dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/curved_rectangle_white" />
+            android:background="@drawable/ic_expand_less_black_24dp" />
 
         <TextView
             android:id="@+id/district"

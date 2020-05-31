@@ -18,7 +18,7 @@
         android:orderInCategory="3"
         android:title="@string/change_language"
         app:showAsAction="never"
-
+        android:visible="false"
         />
     <item
         android:id="@+id/about"
