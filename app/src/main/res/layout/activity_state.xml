@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:text="Data Source: MyGov|MoHFW"
+                    android:text="@string/data_source"
                     android:textSize="10sp" />
             </RelativeLayout>
         </LinearLayout>

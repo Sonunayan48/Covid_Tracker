@@ -13,11 +13,17 @@
     <string name="across_india">Across India</string>
     <string name="covid_tracker">Covid Tracker</string>
     <string name="an_app_by">An App By</string>
-
+    <string name="across_var">Across %1$s</string>
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="district_data">District Data</string>
-    <string name="download_arogya_setu_app">Download Arogya Setu App</string>
+    <string name="download_arogya_setu_app">Download Aarogya Setu App</string>
     <string name="change_language">Change Language</string>
+    <string name="note_data">NOTE: Some Data might not be available</string>
+    <string name="choose_language">Choose Language</string>
+    <string name="active_rv">Active: %1$s</string>
+    <string name="dev1">Mayank Kumar</string>
+    <string name="dev2">Priyanshu</string>
+    <string name="dev3">Shubham Shandilya</string>
 </resources>

@@ -75,7 +75,8 @@ public class StateListAdapter extends RecyclerView.Adapter<StateListAdapter.Stat
             StateClass state = stateList.get(position);
             String name = state.getmName();
             stateName.setText(name);
-            activeCases.setText("Active: " + state.getmActive());
+            String activeCase = context.getString(R.string.active_rv, state.getmActive());
+            activeCases.setText(activeCase);
         }
 
         @Override

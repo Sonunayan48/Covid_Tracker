@@ -3,23 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/share"
-        android:icon="@android:drawable/ic_menu_share"
+        android:icon="@mipmap/share_app_round"
         android:orderInCategory="1"
         android:title="@string/share_app"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/change_language"
+        android:icon="@mipmap/translate_round"
+        android:orderInCategory="2"
+        android:title="@string/change_language"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/download_ArogyaSetu"
         android:icon="@android:drawable/ic_dialog_info"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:title="@string/download_arogya_setu_app"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/change_language"
-        android:orderInCategory="3"
-        android:title="@string/change_language"
-        app:showAsAction="never"
-        android:visible="false"
-        />
     <item
         android:id="@+id/about"
         android:icon="@android:drawable/ic_dialog_info"

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">कोविद ट्रैकर</string>
+    <string name="no_internet_connection">इंटरनेट उपलब्ध नहीं है</string>
+    <string name="total_cases">कुल मामले</string>
+    <string name="active_cases">सक्रिय मामले</string>
+    <string name="recovered">कुल स्वस्थ</string>
+    <string name="total_deaths">कुल मौतें</string>
+    <string name="app_created_by">ऐप निर्माता</string>
+    <string name="data_source">डेटा स्रोत: MyGov|MoHFW</string>
+    <string name="share_app">ऐप शेयर करें</string>
+    <string name="about">ऐप के बारे में</string>
+    <string name="states_and_uts">राज्यों और केंद्र शासित प्रदेशों</string>
+    <string name="across_india">पूरे भारत में</string>
+    <string name="covid_tracker">कोविद ट्रैकर</string>
+    <string name="an_app_by">An App By</string>
+    <string name="across_var">पूरे %1$s में</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="district_data">जिले की जानकारी</string>
+    <string name="download_arogya_setu_app">आरोग्य सेतु ऐप डाउनलोड करें</string>
+    <string name="change_language">भाषा बदलें</string>
+    <string name="note_data">नोट: यह संभव हो सकता है कि कुछ जानकारी अनुपलब्ध हो</string>
+    <string name="choose_language">भाषा चुनें</string>
+    <string name="active_rv">सक्रिय: %1$s</string>
+    <string name="dev1">मयंक कुमार</string>
+    <string name="dev2">प्रियांशु</string>
+    <string name="dev3">शुभम शांडिल्य</string>
+</resources>

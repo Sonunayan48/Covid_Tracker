@@ -95,7 +95,8 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         mActive.setText(state.getmActive());
         mRecovered.setText(state.getmRecovered());
         mDeath.setText(state.getmDeath());
-        mAcrossState.setText("Across " + state.getmName());
+        String acrossStr = getString(R.string.across_var, state.getmName());
+        mAcrossState.setText(acrossStr);
     }
 
     private void startNetworkCall() {

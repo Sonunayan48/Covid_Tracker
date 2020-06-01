@@ -31,7 +31,8 @@ public class DistrictStateActivity extends AppCompatActivity {
         mActive.setText(district.getmActive());
         mRecovered.setText(district.getmRecovered());
         mDeath.setText(district.getmDeath());
-        mAcrossDistrict.setText("Across " + district.getmName());
+        String acrossDristrict = getString(R.string.across_var, district.getmName());
+        mAcrossDistrict.setText(acrossDristrict);
     }
 
     private void setup() {

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -17,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -28,10 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage;
-import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage;
-import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslator;
-import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.sonunayan48.android.covidtracker.Network.NetworkUtils;
@@ -44,6 +40,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class StateActivity extends AppCompatActivity {
     private static final String URLSTRINGINDIA = "https://covid-19india-api.herokuapp.com/v2.0/country_data";
@@ -51,7 +48,7 @@ public class StateActivity extends AppCompatActivity {
     private static final String SHARE_URL = "https://covidtracker48.page.link/downlaod";
     private static final String LATEST_VERSION_KEY = "latest_version";
     private static final String SELECTED_LANGUAGE_INDEX = "selected_language_label";
-    private FirebaseTranslator translator;
+    private static final String SELECTED_LANGUAGE = "selected_language_value";
     public static ArrayList<StateClass> stateList;
     private FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
     private RecyclerView stateListRecycler;
@@ -88,28 +85,32 @@ public class StateActivity extends AppCompatActivity {
                 downloadArogyaSetuApp();
                 break;
             case R.id.change_language:
-                Toast.makeText(this, "Feature comming soon", Toast.LENGTH_SHORT).show();
-                //openLangDialog();
+                //Toast.makeText(this, "Feature comming soon", Toast.LENGTH_SHORT).show();
+                openLangDialog();
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void openLangDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Choose Language");
-        String[] items = {"English", "Hindi"};
+        builder.setTitle(getString(R.string.choose_language));
+        String[] items = {"English", "हिन्दी"};
         int selectedLanguage = preferences.getInt(SELECTED_LANGUAGE_INDEX, 0);
         builder.setSingleChoiceItems(items, selectedLanguage, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch(which){
                     case 0:
-                        changePreferences(0);
+                        changePreferences(0, "");
+                        setAppLanguage("");
+                        recreate();
                         dialog.cancel();
                         break;
                     case 1:
-                        translateToHindi();
-                        changePreferences(1);
+                        //translateToHindi();
+                        changePreferences(1, "hi");
+                        setAppLanguage("hi");
+                        recreate();
                         dialog.cancel();
                         break;
                 }
@@ -119,7 +120,20 @@ public class StateActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void translateToHindi() {
+    private void setAppLanguage(String lang) {
+        Locale locale = new Locale(lang);
+        locale.setDefault(locale);
+        Configuration config = new Configuration();
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext()
+                .getResources().getDisplayMetrics());
+    }
+
+    private void loadLocale() {
+        String language = preferences.getString(SELECTED_LANGUAGE, "");
+        setAppLanguage(language);
+    }
+
+    /*private void translateToHindi() {
         translator.downloadModelIfNeeded()
                 .addOnSuccessListener(
                         new OnSuccessListener<Void>() {
@@ -137,11 +151,12 @@ public class StateActivity extends AppCompatActivity {
                             }
                         }
                 );
-    }
+    }*/
 
-    private void changePreferences(int lanIndex){
+    private void changePreferences(int lanIndex, String language) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt(SELECTED_LANGUAGE_INDEX, lanIndex);
+        editor.putString(SELECTED_LANGUAGE, language);
         editor.apply();
     }
 
@@ -174,14 +189,16 @@ public class StateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        loadLocale();
         setContentView(R.layout.activity_state);
         mAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         Log.v("Analytics", "analytics fetched");
-        FirebaseTranslatorOptions options = new FirebaseTranslatorOptions.Builder()
+        /*FirebaseTranslatorOptions options = new FirebaseTranslatorOptions.Builder()
                 .setSourceLanguage(FirebaseTranslateLanguage.EN)
                 .setTargetLanguage(FirebaseTranslateLanguage.HI)
-                .build();
-        translator = FirebaseNaturalLanguage.getInstance().getTranslator(options);
+                .build();*/
+        /*translator = FirebaseNaturalLanguage.getInstance().getTranslator(options);*/
         Bundle data = getIntent().getExtras();
         if (data != null) {
             String websiteStr = data.getString("website");
@@ -218,7 +235,6 @@ public class StateActivity extends AppCompatActivity {
         totalDeaths = findViewById(R.id.death_cases_count);
         lastUpdate = findViewById(R.id.last_update);
         stateList = new ArrayList<>();
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         sliding = findViewById(R.id.sliding);
         slider = findViewById(R.id.dragger);
         setupListener();
