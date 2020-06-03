@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
@@ -44,16 +45,22 @@ import java.util.Locale;
 
 public class StateActivity extends AppCompatActivity {
     private static final String URLSTRINGINDIA = "https://covid-19india-api.herokuapp.com/v2.0/country_data";
+    private static final String COUNTRY_DATA_API = "country_data_api";
+    private static final String STATE_DATA_API = "state_data_api";
     private static final String URLSTRINGSTATE = "https://covid-19india-api.herokuapp.com/v2.0/state_data";
+    private static final String IS_LANGUAGE_SELECTED = "is_language_selected";
+    private static String urlCountry = "";
     private static final String SHARE_URL = "https://covidtracker48.page.link/downlaod";
     private static final String LATEST_VERSION_KEY = "latest_version";
     private static final String SELECTED_LANGUAGE_INDEX = "selected_language_label";
     private static final String SELECTED_LANGUAGE = "selected_language_value";
+    private static String urlState = "";
     public static ArrayList<StateClass> stateList;
     private FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
     private RecyclerView stateListRecycler;
     private StateListAdapter adapter;
     private ProgressBar progressBar;
+    private ProgressBar progressBar2;
     private TextView mConnectionText;
     private TextView totalCases;
     private TextView activeCase;
@@ -69,6 +76,10 @@ public class StateActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            MenuItem item = menu.getItem(1);
+            item.setVisible(false);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -122,7 +133,7 @@ public class StateActivity extends AppCompatActivity {
 
     private void setAppLanguage(String lang) {
         Locale locale = new Locale(lang);
-        locale.setDefault(locale);
+        Locale.setDefault(locale);
         Configuration config = new Configuration();
         getBaseContext().getResources().updateConfiguration(config, getBaseContext()
                 .getResources().getDisplayMetrics());
@@ -161,16 +172,11 @@ public class StateActivity extends AppCompatActivity {
     }
 
     private void shareApp() {
-        String messageText = "Hey There, Our lives have been impacted very badly due to the spread of *Novel " +
-                "Corona Virus* in India, but we are ready to face and win this challenge. " +
-                "Download the *Covid Tracker* android app to know the current data related to *COVID 19* in" +
-                " your *State or District* to stay alert. Download the for app free from here: " +
-                SHARE_URL + "\nAlso Remember to *Share* the app to your *Friends and Family* so that they can" +
-                " also be alert and take all the precautions.";
+        String messageText = getString(R.string.share_app_msg, SHARE_URL);
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, messageText);
         sendIntent.setType("text/plain");
-        Intent shareIntent = Intent.createChooser(sendIntent, "Share the App using");
+        Intent shareIntent = Intent.createChooser(sendIntent, getString(R.string.share_app_title));
         startActivity(shareIntent);
 
 
@@ -191,6 +197,7 @@ public class StateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         loadLocale();
+        newUserLanguageSelection();
         setContentView(R.layout.activity_state);
         mAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         Log.v("Analytics", "analytics fetched");
@@ -213,6 +220,8 @@ public class StateActivity extends AppCompatActivity {
                 .build());
         HashMap<String, Object> defaults = new HashMap<>();
         defaults.put(LATEST_VERSION_KEY, 1.0);
+        defaults.put(COUNTRY_DATA_API, "");
+        defaults.put(STATE_DATA_API, "");
         remoteConfig.setDefaults(defaults);
         remoteConfig.fetch().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -228,6 +237,7 @@ public class StateActivity extends AppCompatActivity {
 
         stateListRecycler = findViewById(R.id.state_list);
         progressBar = findViewById(R.id.progress_circular);
+        progressBar2 = findViewById(R.id.progress_circular2);
         mConnectionText = findViewById(R.id.connection_text);
         totalCases = findViewById(R.id.total_cases_count);
         activeCase = findViewById(R.id.active_cases_count);
@@ -239,6 +249,16 @@ public class StateActivity extends AppCompatActivity {
         slider = findViewById(R.id.dragger);
         setupListener();
         startNetworkCall();
+    }
+
+    private void newUserLanguageSelection() {
+        boolean isLanguageSelected = preferences.getBoolean(IS_LANGUAGE_SELECTED, false);
+        if (!isLanguageSelected && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            openLangDialog();
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean(IS_LANGUAGE_SELECTED, true);
+            editor.apply();
+        }
     }
 
     private void setupListener() {
@@ -271,11 +291,11 @@ public class StateActivity extends AppCompatActivity {
 
     private void createUpdateDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("A new version of the app is available. Update now to get the latest features.");
-        builder.setTitle("App Update Available!");
+        builder.setMessage(getString(R.string.new_update_message));
+        builder.setTitle(getString(R.string.new_update_title));
         builder.setCancelable(false);
         builder.setIcon(R.drawable.ic_update_black_24dp);
-        builder.setPositiveButton("Update Now", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.update_now_dialog), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -283,7 +303,7 @@ public class StateActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        builder.setNegativeButton("Later", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.update_later_dialog, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -296,13 +316,53 @@ public class StateActivity extends AppCompatActivity {
     private void startNetworkCall() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected()) {
-            new GetStateResults().execute();
+            progressBar.setVisibility(View.VISIBLE);
+            progressBar2.setVisibility(View.VISIBLE);
+            remoteConfig.fetch().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    remoteConfig.activateFetched();
+                    urlCountry = remoteConfig.getString(COUNTRY_DATA_API);
+                    urlState = remoteConfig.getString(STATE_DATA_API);
+                    if (urlCountry.length() != 0 && urlState.length() != 0) {
+                        new GetStateResults().execute();
+                    } else {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        progressBar2.setVisibility(View.INVISIBLE);
+                        showServerErrorDialog();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    progressBar2.setVisibility(View.INVISIBLE);
+                    showServerErrorDialog();
+                }
+            });
             mConnectionText.setVisibility(View.INVISIBLE);
         } else {
             mConnectionText.setVisibility(View.VISIBLE);
             lastUpdate.setText("No Internet Connection");
             createNetworkErrorDialog();
         }
+    }
+
+    private void showServerErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.server_error_title));
+        builder.setMessage(getString(R.string.server_error_message));
+        builder.setCancelable(false);
+        builder.setIcon(R.drawable.ic_error_black_24dp);
+        builder.setNegativeButton(getString(R.string.dialog_exit_app),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finishAffinity();
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void setIndiaData() {
@@ -325,11 +385,11 @@ public class StateActivity extends AppCompatActivity {
 
     private void createNetworkErrorDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Please connect to Internet and retry.");
-        builder.setTitle("No Internet Connection!");
+        builder.setMessage(getString(R.string.no_internet_msg));
+        builder.setTitle(getString(R.string.no_internet_connection_title));
         builder.setCancelable(false);
         builder.setIcon(R.drawable.ic_warning_black_24dp);
-        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.dialog_try_again), new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -337,7 +397,7 @@ public class StateActivity extends AppCompatActivity {
                 startNetworkCall();
             }
         });
-        builder.setNegativeButton("Exit App", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.dialog_exit_app), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finishAffinity();
@@ -352,15 +412,14 @@ public class StateActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
+
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
             NetworkUtils networkUtils = new NetworkUtils();
-            String jsonStr = networkUtils.makeRequestCall(URLSTRINGSTATE);
-            String jsonStrIndia = networkUtils.makeRequestCall(URLSTRINGINDIA);
-
+            String jsonStr = networkUtils.makeRequestCall(urlState);
+            String jsonStrIndia = networkUtils.makeRequestCall(urlCountry);
             if (jsonStr != null) {
                 try {
                     JSONArray array = new JSONArray(jsonStr);
@@ -396,6 +455,7 @@ public class StateActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             progressBar.setVisibility(View.INVISIBLE);
+            progressBar2.setVisibility(View.INVISIBLE);
             super.onPostExecute(aVoid);
             setIndiaData();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

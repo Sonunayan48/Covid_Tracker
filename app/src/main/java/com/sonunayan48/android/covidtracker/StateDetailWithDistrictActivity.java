@@ -38,6 +38,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
     private TextView mDeath;
     private TextView mAcrossState;
     private ProgressBar mProgressBar;
+    private ProgressBar progressBar;
     private RecyclerView districtView;
     private StateListAdapter adapter;
     private TextView dataNotAvailable;
@@ -66,6 +67,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         mDeath = findViewById(R.id.death_cases_count);
         mAcrossState = findViewById(R.id.across_state);
         mProgressBar = findViewById(R.id.progress_horizontal);
+        progressBar = findViewById(R.id.progress_circular2);
         districtList = new ArrayList<>();
         districtView = findViewById(R.id.district_list);
         dataNotAvailable = findViewById(R.id.data_not_available);
@@ -110,11 +112,11 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
 
     private void createNetworkErrorDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Please connect to Internet and retry.");
-        builder.setTitle("No Internet Connection!");
+        builder.setMessage(getString(R.string.no_internet_msg));
+        builder.setTitle(getString(R.string.no_internet_connection_title));
         builder.setCancelable(false);
         builder.setIcon(R.drawable.ic_warning_black_24dp);
-        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.dialog_try_again), new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -122,7 +124,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
                 startNetworkCall();
             }
         });
-        builder.setNegativeButton("Exit App", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.dialog_exit_app), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finishAffinity();
@@ -138,6 +140,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             mProgressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -180,9 +183,10 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             mProgressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
             super.onPostExecute(aVoid);
             if (showDataUnavailable) {
-                dataNotAvailable.setText("District Data Unavailable for " + state.getmName());
+                dataNotAvailable.setText(getString(R.string.district_data_unavailable, state.getmName()));
                 dataNotAvailable.setVisibility(View.VISIBLE);
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">कोविद ट्रैकर</string>
-    <string name="no_internet_connection">इंटरनेट उपलब्ध नहीं है</string>
+    <string name="no_internet_connection_title">इंटरनेट उपलब्ध नहीं है|</string>
+    <string name="no_internet_msg">कृपया इंटरनेट से जुड़ें और पुनः प्रयास करें।</string>
     <string name="total_cases">कुल मामले</string>
     <string name="active_cases">सक्रिय मामले</string>
     <string name="recovered">कुल स्वस्थ</string>
@@ -27,4 +28,15 @@
     <string name="dev1">मयंक कुमार</string>
     <string name="dev2">प्रियांशु</string>
     <string name="dev3">शुभम शांडिल्य</string>
+    <string name="server_error_title">सर्वर की समस्या</string>
+    <string name="server_error_message">डेटा लाने में असमर्थ। कृपया कुछ समय बाद पुनः प्रयास करें।</string>
+    <string name="dialog_exit_app">ऐप से बाहर निकलें</string>
+    <string name="dialog_try_again">पुनः प्रयास करें</string>
+    <string name="new_update_title">ऐप अपडेट उपलब्ध है|</string>
+    <string name="new_update_message">ऐप का एक नया संस्करण उपलब्ध है। नवीनतम सुविधाओं का आनंद लेने के लिए अभी अपडेट करें।</string>
+    <string name="update_now_dialog">अभी अपडेट करें</string>
+    <string name="update_later_dialog">बाद में अपडेट करें</string>
+    <string name="district_data_unavailable">%1$s के लिए जिला डेटा अनुपलब्ध</string>
+    <string name="share_app_title">एप्लिकेशन शेयर करने का तरीका</string>
+    <string name="share_app_msg">भारत में नोवेल कोरोना वायरस के फैलने से हमारे जीवन पर बहुत बुरा असर पड़ा है, लेकिन हम इस चुनौती का सामना करने और जीतने के लिए तैयार हैं। *अपने राज्य या जिले में covid19 से संबंधित मौजूदा डेटा को जानने के लिए कोविद ट्रैकर एंड्रॉइड ऐप डाउनलोड करें।* एप्लिकेशन को यहां से मुफ्त में डाउनलोड करें:  %1$s  । *अपने प्रिय मित्रों और परिवार को ऐप साझा करना भी याद रखें ताकि वे भी सतर्क रहें और सभी सावधानियां बरतें।*</string>
 </resources>
