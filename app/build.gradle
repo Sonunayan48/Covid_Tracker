@@ -9,7 +9,7 @@ android {
         applicationId "com.sonunayan48.android.covidtracker"
         minSdkVersion 22
         targetSdkVersion 29
-        versionCode 1
+        versionCode 2
         versionName "1.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

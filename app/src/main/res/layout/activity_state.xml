@@ -56,6 +56,25 @@
                     <TextView
                         android:id="@+id/total_cases_count"
                         style="@style/param_value" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_dc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
+
+                        <View
+                            android:id="@+id/arrow_c"
+                            style="@style/delta_arrow"
+                            android:background="@drawable/ic_arrow_up_red" />
+
+                        <TextView
+                            android:id="@+id/delta_confirmed"
+                            style="@style/delta_label" />
+                    </LinearLayout>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -71,6 +90,25 @@
                     <TextView
                         android:id="@+id/active_cases_count"
                         style="@style/param_value" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_da"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
+
+                        <View
+                            android:id="@+id/arrow_a"
+                            style="@style/delta_arrow"
+                            android:background="@drawable/ic_arrow_up_red" />
+
+                        <TextView
+                            android:id="@+id/delta_active"
+                            style="@style/delta_label" />
+                    </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -94,6 +132,25 @@
                     <TextView
                         android:id="@+id/recovered_cases_count"
                         style="@style/param_value" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_dr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
+
+                        <View
+                            android:id="@+id/arrow_r"
+                            style="@style/delta_arrow"
+                            android:background="@drawable/ic_arrow_up_green" />
+
+                        <TextView
+                            android:id="@+id/delta_recovered"
+                            style="@style/delta_label" />
+                    </LinearLayout>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -109,6 +166,25 @@
                     <TextView
                         android:id="@+id/death_cases_count"
                         style="@style/param_value" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_dd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
+
+                        <View
+                            android:id="@+id/arrow_d"
+                            style="@style/delta_arrow"
+                            android:background="@drawable/ic_arrow_up_red" />
+
+                        <TextView
+                            android:id="@+id/delta_deaths"
+                            style="@style/delta_label" />
+                    </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
 

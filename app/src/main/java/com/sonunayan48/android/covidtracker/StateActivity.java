@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -67,11 +68,14 @@ public class StateActivity extends AppCompatActivity {
     private TextView recovered;
     private TextView totalDeaths;
     private TextView lastUpdate;
+    private TextView dConfirmed, dActive, dRecovered, dDeath;
     private JSONObject obj;
     private FirebaseAnalytics mAnalytics;
     private SharedPreferences preferences;
     private SlidingUpPanelLayout sliding;
     private View slider;
+    private LinearLayout dc, da, dr, dd;
+    private View arrowActive;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -244,9 +248,18 @@ public class StateActivity extends AppCompatActivity {
         recovered = findViewById(R.id.recovered_cases_count);
         totalDeaths = findViewById(R.id.death_cases_count);
         lastUpdate = findViewById(R.id.last_update);
+        dConfirmed = findViewById(R.id.delta_confirmed);
+        dActive = findViewById(R.id.delta_active);
+        dRecovered = findViewById(R.id.delta_recovered);
+        dDeath = findViewById(R.id.delta_deaths);
         stateList = new ArrayList<>();
         sliding = findViewById(R.id.sliding);
         slider = findViewById(R.id.dragger);
+        dc = findViewById(R.id.layout_dc);
+        da = findViewById(R.id.layout_da);
+        dr = findViewById(R.id.layout_dr);
+        dd = findViewById(R.id.layout_dd);
+        arrowActive = findViewById(R.id.arrow_a);
         setupListener();
         startNetworkCall();
     }
@@ -372,11 +385,28 @@ public class StateActivity extends AppCompatActivity {
             String recoverd = obj.getString("recovered_cases");
             String death = obj.getString("death_cases");
             String update = obj.getString("last_updated");
+            String deltaActive = obj.getString("delta_change_active_cases");
+            String deltaRecovered = obj.getString("delta_change_recovered_cases");
+            String deltaDeath = obj.getString("delta_change_death_cases");
+            int dCnf = Integer.parseInt(deltaActive) + Integer.parseInt(deltaRecovered)
+                    + Integer.parseInt(deltaDeath);
+            if (Integer.parseInt(deltaActive) <= 0) {
+                arrowActive.setBackground(getDrawable(R.drawable.ic_arrow_down_green));
+                deltaActive = String.valueOf(Integer.parseInt(deltaActive) * (-1));
+            }
             totalCases.setText(confirmed);
             activeCase.setText(active);
             recovered.setText(recoverd);
             totalDeaths.setText(death);
+            dActive.setText(deltaActive);
+            dRecovered.setText(deltaRecovered);
+            dDeath.setText(deltaDeath);
+            dConfirmed.setText(String.valueOf(dCnf));
             lastUpdate.setText("Last Updated: " + update);
+            dc.setVisibility(View.VISIBLE);
+            da.setVisibility(View.VISIBLE);
+            dr.setVisibility(View.VISIBLE);
+            dd.setVisibility(View.VISIBLE);
         } catch (JSONException e) {
             e.printStackTrace();
         }
