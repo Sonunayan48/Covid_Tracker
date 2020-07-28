@@ -28,6 +28,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -77,6 +79,7 @@ public class StateActivity extends AppCompatActivity {
     private View slider;
     private LinearLayout dc, da, dr, dd;
     private View arrowActive;
+    private AdView adView;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -262,6 +265,9 @@ public class StateActivity extends AppCompatActivity {
         arrowActive = findViewById(R.id.arrow_a);
         setupListener();
         startNetworkCall();
+        adView = findViewById(R.id.adView);
+        AdRequest request = new AdRequest.Builder().build();
+        adView.loadAd(request);
     }
 
     private void newUserLanguageSelection() {
