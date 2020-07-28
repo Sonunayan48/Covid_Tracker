@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -201,7 +202,6 @@ public class StateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         loadLocale();
-        newUserLanguageSelection();
         setContentView(R.layout.activity_state);
         mAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         Log.v("Analytics", "analytics fetched");
@@ -409,6 +409,8 @@ public class StateActivity extends AppCompatActivity {
             dd.setVisibility(View.VISIBLE);
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            Toast.makeText(this, "There might be some issue!", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -468,6 +470,8 @@ public class StateActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                } catch (Exception e) {
+                    showServerErrorDialog();
                 }
             }
 
@@ -508,6 +512,7 @@ public class StateActivity extends AppCompatActivity {
                 }
             }, R.anim.rv_item_falldown_animation);
             stateListRecycler.setAdapter(adapter);
+            newUserLanguageSelection();
         }
     }
 
