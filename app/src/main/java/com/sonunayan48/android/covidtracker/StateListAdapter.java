@@ -12,37 +12,79 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdView;
+
 import java.util.ArrayList;
 
-public class StateListAdapter extends RecyclerView.Adapter<StateListAdapter.StateViewHolder> {
+public class StateListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final int ITEM_DATA_CODE = 978;
+    private static final int ITEM_AD_CODE = 979;
     private final ListItemClickListner mListener;
     private final int animFile;
-    private ArrayList<StateClass> stateList;
+    private ArrayList<Object> stateList;
     private Context context;
 
-    StateListAdapter(ArrayList<StateClass> arrayList, ListItemClickListner listner, int file) {
+    StateListAdapter(ArrayList<Object> arrayList, ListItemClickListner listner, int file) {
         stateList = arrayList;
         mListener = listner;
         animFile = file;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 2) {
+            return ITEM_AD_CODE;
+        }
+        return ITEM_DATA_CODE;
+    }
+
     @NonNull
     @Override
-    public StateListAdapter.StateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        int layoutIdForStateList = R.layout.state_list;
         LayoutInflater inflater = LayoutInflater.from(context);
         boolean shouldAttachToParentImmediately = false;
-        View view = inflater.inflate(layoutIdForStateList, parent, shouldAttachToParentImmediately);
-        return new StateViewHolder(view);
+        switch (viewType) {
+            case ITEM_AD_CODE:
+                int layoutIdForAdList = R.layout.banner_ad_template;
+                View adView = inflater.inflate(layoutIdForAdList, parent, shouldAttachToParentImmediately);
+                return new AdViewHolder(adView);
+            default:
+            case ITEM_DATA_CODE:
+                int layoutIdForStateList = R.layout.state_list;
+                View view = inflater.inflate(layoutIdForStateList, parent, shouldAttachToParentImmediately);
+                return new StateViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StateListAdapter.StateViewHolder holder, int position) {
-        holder.mParentLayout.setAnimation(AnimationUtils.loadAnimation(context, animFile));
-        holder.bind(position);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        int viewType = getItemViewType(position);
+        switch (viewType) {
+            case ITEM_AD_CODE:
+                if (stateList.get(position) instanceof AdView) {
+                    AdViewHolder adViewHolder = (AdViewHolder) holder;
+                    AdView adView = (AdView) stateList.get(position);
+                    ViewGroup adCardView = (ViewGroup) adViewHolder.itemView;
+                    if (adCardView.getChildCount() > 0) {
+                        adCardView.removeAllViews();
+                    }
+                    if (adView.getParent() != null) {
+                        ((ViewGroup) adView.getParent()).removeView(adView);
+                    }
+                    adCardView.addView(adView);
+                }
+                break;
+            default:
+            case ITEM_DATA_CODE:
+                if (stateList.get(position) instanceof StateClass) {
+                    StateViewHolder mHolder = (StateViewHolder) holder;
+                    mHolder.mParentLayout.setAnimation(AnimationUtils.loadAnimation(context, animFile));
+                    mHolder.bind(position);
+                }
+                break;
+        }
     }
 
     @Override
@@ -54,6 +96,7 @@ public class StateListAdapter extends RecyclerView.Adapter<StateListAdapter.Stat
         void onListClick(int itemIndex);
     }
 
+    //ViewHolder for the state/district data
     class StateViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView stateName;
@@ -72,7 +115,8 @@ public class StateListAdapter extends RecyclerView.Adapter<StateListAdapter.Stat
         }
 
         private void bind(int position) {
-            StateClass state = stateList.get(position);
+            Object ob = stateList.get(position);
+            StateClass state = (StateClass) ob;
             String name = state.getmName();
             stateName.setText(name);
             String activeCase = context.getString(R.string.active_rv, state.getmActive());
@@ -83,6 +127,13 @@ public class StateListAdapter extends RecyclerView.Adapter<StateListAdapter.Stat
         public void onClick(View v) {
             int clickedItemPosition = getAdapterPosition();
             mListener.onListClick(clickedItemPosition);
+        }
+    }
+
+    class AdViewHolder extends RecyclerView.ViewHolder {
+
+        public AdViewHolder(@NonNull View itemView) {
+            super(itemView);
         }
     }
 }

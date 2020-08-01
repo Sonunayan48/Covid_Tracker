@@ -30,7 +30,7 @@ import java.util.Iterator;
 public class StateDetailWithDistrictActivity extends AppCompatActivity {
 
     private static final String DISTRICT_URL = "https://api.covid19india.org/state_district_wise.json";
-    private static ArrayList<StateClass> districtList;
+    private static ArrayList<Object> districtList;
     StateClass state;
     private TextView mTotal;
     private TextView mActive;
@@ -190,10 +190,10 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
                 dataNotAvailable.setVisibility(View.VISIBLE);
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                districtList.sort(new Comparator<StateClass>() {
+                districtList.sort(new Comparator<Object>() {
                     @Override
-                    public int compare(StateClass o1, StateClass o2) {
-                        return Integer.parseInt(o2.getmActive()) - Integer.parseInt(o1.getmActive());
+                    public int compare(Object o1, Object o2) {
+                        return Integer.parseInt(((StateClass) o2).getmActive()) - Integer.parseInt(((StateClass) o1).getmActive());
                     }
                 });
             }
@@ -203,7 +203,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
                 @Override
                 public void onListClick(int itemIndex) {
                     Intent intent = new Intent(getApplicationContext(), DistrictStateActivity.class);
-                    StateClass clickedDistrict = districtList.get(itemIndex);
+                    StateClass clickedDistrict = (StateClass) districtList.get(itemIndex);
                     intent.putExtra("district", clickedDistrict);
                     startActivity(intent);
                 }

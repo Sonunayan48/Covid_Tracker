@@ -29,7 +29,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -59,7 +61,7 @@ public class StateActivity extends AppCompatActivity {
     private static final String SELECTED_LANGUAGE_INDEX = "selected_language_label";
     private static final String SELECTED_LANGUAGE = "selected_language_value";
     private static String urlState = "";
-    public static ArrayList<StateClass> stateList;
+    public static ArrayList<Object> stateList;
     private FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
     private RecyclerView stateListRecycler;
     private StateListAdapter adapter;
@@ -199,6 +201,26 @@ public class StateActivity extends AppCompatActivity {
         }
     }
 
+    public void initAds() {
+        MobileAds.initialize(this);
+    }
+
+    public void addBannerAds() {
+        AdView adView = new AdView(StateActivity.this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+        stateList.add(2, adView);
+        loadBannerAd(2);
+    }
+
+    private void loadBannerAd(int index) {
+        if (!(stateList.get(index) instanceof AdView)) {
+            return;
+        }
+        AdView adView = (AdView) stateList.get(index);
+        adView.loadAd(new AdRequest.Builder().build());
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,6 +228,7 @@ public class StateActivity extends AppCompatActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         loadLocale();
         setContentView(R.layout.activity_state);
+        initAds();
         mAnalytics = FirebaseAnalytics.getInstance(getApplicationContext());
         Log.v("Analytics", "analytics fetched");
         /*FirebaseTranslatorOptions options = new FirebaseTranslatorOptions.Builder()
@@ -265,9 +288,6 @@ public class StateActivity extends AppCompatActivity {
         arrowActive = findViewById(R.id.arrow_a);
         setupListener();
         startNetworkCall();
-        adView = findViewById(R.id.adView);
-        AdRequest request = new AdRequest.Builder().build();
-        adView.loadAd(request);
     }
 
     private void newUserLanguageSelection() {
@@ -499,20 +519,21 @@ public class StateActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             setIndiaData();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                stateList.sort(new Comparator<StateClass>() {
+                stateList.sort(new Comparator<Object>() {
                     @Override
-                    public int compare(StateClass o1, StateClass o2) {
-                        return Integer.parseInt(o2.getmActive()) - Integer.parseInt(o1.getmActive());
+                    public int compare(Object o1, Object o2) {
+                        return Integer.parseInt(((StateClass) o2).getmActive()) - Integer.parseInt(((StateClass) o1).getmActive());
                     }
                 });
             }
+            addBannerAds();
             LinearLayoutManager manager = new LinearLayoutManager(StateActivity.this);
             stateListRecycler.setLayoutManager(manager);
             adapter = new StateListAdapter(stateList, new StateListAdapter.ListItemClickListner() {
                 @Override
                 public void onListClick(int itemIndex) {
                     Intent intent = new Intent(getApplicationContext(), StateDetailWithDistrictActivity.class);
-                    StateClass clickedState = stateList.get(itemIndex);
+                    StateClass clickedState = (StateClass) stateList.get(itemIndex);
                     intent.putExtra("state", clickedState);
                     startActivity(intent);
                 }
