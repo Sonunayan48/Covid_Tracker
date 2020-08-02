@@ -67,7 +67,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         for (int i = ADS_PERIOD; i < districtList.size(); i += ADS_PERIOD) {
             AdView adView = new AdView(StateDetailWithDistrictActivity.this);
             adView.setAdSize(AdSize.BANNER);
-            adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+            adView.setAdUnitId(getString(R.string.banner_ad_unit_id));
             districtList.add(i, adView);
         }
         loadBannerAd();
@@ -222,7 +222,9 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
                     }
                 });
             }
-            addBannerAds();
+            if (StateActivity.toShowAds == 1) {
+                addBannerAds();
+            }
             LinearLayoutManager manager = new LinearLayoutManager(StateDetailWithDistrictActivity.this);
             districtView.setLayoutManager(manager);
             adapter = new StateListAdapter(districtList, new StateListAdapter.ListItemClickListner() {

@@ -33,7 +33,7 @@ public class StateListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        if (position != 0 && position % StateActivity.ADS_PERIOD == 0) {
+        if (position != 0 && StateActivity.toShowAds == 1 && position % StateActivity.ADS_PERIOD == 0) {
             return ITEM_AD_CODE;
         }
         return ITEM_DATA_CODE;

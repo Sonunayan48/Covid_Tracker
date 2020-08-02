@@ -50,10 +50,12 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class StateActivity extends AppCompatActivity {
-    public static final int ADS_PERIOD = 8;
+    public static final String BANNER_AD_PERIOD_KEY = "banner_ad_period";
+    private static final String SHOW_ADS_KEY = "show_ads";
     private static final String URLSTRINGINDIA = "https://covid-19india-api.herokuapp.com/v2.0/country_data";
     private static final String COUNTRY_DATA_API = "country_data_api";
     private static final String STATE_DATA_API = "state_data_api";
+    public static int ADS_PERIOD = 1000;
     private static final String URLSTRINGSTATE = "https://covid-19india-api.herokuapp.com/v2.0/state_data";
     private static final String IS_LANGUAGE_SELECTED = "is_language_selected";
     private static String urlCountry = "";
@@ -83,6 +85,7 @@ public class StateActivity extends AppCompatActivity {
     private LinearLayout dc, da, dr, dd;
     private View arrowActive;
     private AdView adView;
+    public static int toShowAds = 0;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -210,7 +213,7 @@ public class StateActivity extends AppCompatActivity {
         for (int i = ADS_PERIOD; i < stateList.size(); i += ADS_PERIOD) {
             AdView adView = new AdView(StateActivity.this);
             adView.setAdSize(AdSize.BANNER);
-            adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+            adView.setAdUnitId(getString(R.string.banner_ad_unit_id));
             stateList.add(i, adView);
         }
         loadBannerAd();
@@ -259,6 +262,8 @@ public class StateActivity extends AppCompatActivity {
         defaults.put(LATEST_VERSION_KEY, 1.0);
         defaults.put(COUNTRY_DATA_API, "");
         defaults.put(STATE_DATA_API, "");
+        defaults.put(SHOW_ADS_KEY, 0);
+        defaults.put(BANNER_AD_PERIOD_KEY, 1000);
         remoteConfig.setDefaults(defaults);
         remoteConfig.fetch().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -326,6 +331,8 @@ public class StateActivity extends AppCompatActivity {
 
     private void checkForUpdates() throws PackageManager.NameNotFoundException {
         Double latestVersion = (Double) remoteConfig.getDouble(LATEST_VERSION_KEY);
+        toShowAds = Integer.parseInt(remoteConfig.getString(SHOW_ADS_KEY));
+        ADS_PERIOD = Integer.parseInt(remoteConfig.getString(BANNER_AD_PERIOD_KEY));
         PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
         String versionStr = pInfo.versionName;
         Double version = Double.parseDouble(versionStr);
@@ -533,7 +540,9 @@ public class StateActivity extends AppCompatActivity {
                     }
                 });
             }
-            addBannerAds();
+            if (toShowAds == 1) {
+                addBannerAds();
+            }
             LinearLayoutManager manager = new LinearLayoutManager(StateActivity.this);
             stateListRecycler.setLayoutManager(manager);
             adapter = new StateListAdapter(stateList, new StateListAdapter.ListItemClickListner() {
