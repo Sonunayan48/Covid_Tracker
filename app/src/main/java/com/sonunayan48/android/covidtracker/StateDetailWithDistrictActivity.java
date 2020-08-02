@@ -17,6 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.sonunayan48.android.covidtracker.Network.NetworkUtils;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -28,7 +31,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 public class StateDetailWithDistrictActivity extends AppCompatActivity {
-
+    public static final int ADS_PERIOD = StateActivity.ADS_PERIOD;
     private static final String DISTRICT_URL = "https://api.covid19india.org/state_district_wise.json";
     private static ArrayList<Object> districtList;
     StateClass state;
@@ -58,6 +61,28 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         }
         setupListener();
         startNetworkCall();
+    }
+
+    public void addBannerAds() {
+        for (int i = ADS_PERIOD; i < districtList.size(); i += ADS_PERIOD) {
+            AdView adView = new AdView(StateDetailWithDistrictActivity.this);
+            adView.setAdSize(AdSize.BANNER);
+            adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+            districtList.add(i, adView);
+        }
+        loadBannerAd();
+    }
+
+    private void loadBannerAd() {
+        int i = ADS_PERIOD;
+        while (i < districtList.size()) {
+            if (!(districtList.get(i) instanceof AdView)) {
+                return;
+            }
+            AdView adView = (AdView) districtList.get(i);
+            adView.loadAd(new AdRequest.Builder().build());
+            i += ADS_PERIOD;
+        }
     }
 
     private void setup() {
@@ -197,6 +222,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
                     }
                 });
             }
+            addBannerAds();
             LinearLayoutManager manager = new LinearLayoutManager(StateDetailWithDistrictActivity.this);
             districtView.setLayoutManager(manager);
             adapter = new StateListAdapter(districtList, new StateListAdapter.ListItemClickListner() {

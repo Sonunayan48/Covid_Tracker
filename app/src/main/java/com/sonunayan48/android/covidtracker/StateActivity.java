@@ -50,6 +50,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class StateActivity extends AppCompatActivity {
+    public static final int ADS_PERIOD = 8;
     private static final String URLSTRINGINDIA = "https://covid-19india-api.herokuapp.com/v2.0/country_data";
     private static final String COUNTRY_DATA_API = "country_data_api";
     private static final String STATE_DATA_API = "state_data_api";
@@ -206,19 +207,25 @@ public class StateActivity extends AppCompatActivity {
     }
 
     public void addBannerAds() {
-        AdView adView = new AdView(StateActivity.this);
-        adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
-        stateList.add(2, adView);
-        loadBannerAd(2);
+        for (int i = ADS_PERIOD; i < stateList.size(); i += ADS_PERIOD) {
+            AdView adView = new AdView(StateActivity.this);
+            adView.setAdSize(AdSize.BANNER);
+            adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+            stateList.add(i, adView);
+        }
+        loadBannerAd();
     }
 
-    private void loadBannerAd(int index) {
-        if (!(stateList.get(index) instanceof AdView)) {
-            return;
+    private void loadBannerAd() {
+        int i = ADS_PERIOD;
+        while (i < stateList.size()) {
+            if (!(stateList.get(i) instanceof AdView)) {
+                return;
+            }
+            AdView adView = (AdView) stateList.get(i);
+            adView.loadAd(new AdRequest.Builder().build());
+            i += ADS_PERIOD;
         }
-        AdView adView = (AdView) stateList.get(index);
-        adView.loadAd(new AdRequest.Builder().build());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)

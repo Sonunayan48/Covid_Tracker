@@ -33,7 +33,7 @@ public class StateListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 2) {
+        if (position != 0 && position % StateActivity.ADS_PERIOD == 0) {
             return ITEM_AD_CODE;
         }
         return ITEM_DATA_CODE;
@@ -65,6 +65,7 @@ public class StateListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case ITEM_AD_CODE:
                 if (stateList.get(position) instanceof AdView) {
                     AdViewHolder adViewHolder = (AdViewHolder) holder;
+                    adViewHolder.itemView.setAnimation(AnimationUtils.loadAnimation(context, animFile));
                     AdView adView = (AdView) stateList.get(position);
                     ViewGroup adCardView = (ViewGroup) adViewHolder.itemView;
                     if (adCardView.getChildCount() > 0) {
