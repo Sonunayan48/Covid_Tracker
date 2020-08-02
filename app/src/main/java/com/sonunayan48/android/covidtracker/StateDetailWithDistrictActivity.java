@@ -67,7 +67,7 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
         for (int i = ADS_PERIOD; i < districtList.size(); i += ADS_PERIOD) {
             AdView adView = new AdView(StateDetailWithDistrictActivity.this);
             adView.setAdSize(AdSize.BANNER);
-            adView.setAdUnitId(getString(R.string.banner_ad_unit_id));
+            adView.setAdUnitId(getString(R.string.banner_ad_unit_id_release));
             districtList.add(i, adView);
         }
         loadBannerAd();
