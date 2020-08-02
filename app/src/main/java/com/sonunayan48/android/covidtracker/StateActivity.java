@@ -215,7 +215,7 @@ public class StateActivity extends AppCompatActivity {
         for (int i = ADS_PERIOD; i < stateList.size(); i += ADS_PERIOD) {
             AdView adView = new AdView(StateActivity.this);
             adView.setAdSize(AdSize.BANNER);
-            adView.setAdUnitId(getString(R.string.banner_ad_unit_id_release));
+            adView.setAdUnitId(getString(R.string.banner_ad_unit_id));
             stateList.add(i, adView);
         }
         loadBannerAd();

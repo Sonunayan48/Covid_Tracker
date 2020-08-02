@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -102,7 +101,7 @@ public class StateListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         private TextView stateName;
         private TextView activeCases;
-        private RelativeLayout mLayout;
+        private LinearLayout mLayout;
         private LinearLayout mParentLayout;
 
         public StateViewHolder(@NonNull View itemView) {

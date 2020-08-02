@@ -9,34 +9,36 @@
     android:background="@drawable/curved_rectangle"
     android:orientation="horizontal">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
+        android:orientation="horizontal"
         android:clickable="true"
         android:elevation="16dp"
         android:focusable="true">
 
         <TextView
             android:id="@+id/state_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:layout_weight="7"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             tools:text="State Name" />
 
         <TextView
             android:id="@+id/active"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_weight="5"
             android:layout_margin="16dp"
             android:textColor="#9E2FB1"
             android:textSize="16sp"
+            android:textAlignment="viewEnd"
             tools:text="Active" />
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>
