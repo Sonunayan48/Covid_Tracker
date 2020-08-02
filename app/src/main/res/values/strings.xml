@@ -36,7 +36,7 @@
         to enjoy the latest features.</string>
     <string name="update_now_dialog">Update Now</string>
     <string name="update_later_dialog">Update Later</string>
-    <string name="district_data_unavailable">District Data Unavailable for %1$s</string>
+    <string name="district_data_unavailable">District Data Currently Unavailable for %1$s</string>
     <string name="share_app_title">Share the App using</string>
     <string name="share_app_msg">Our lives have been impacted very badly due to the spread of Novel Corona Virus in India, but we are ready to face and win this challenge. Download Covid Tracker android app to know the current data related to covid19 in your *STATE or DISTRICT* to stay alert. Download the app for free from here: %1$s . *Also remember to share the app to your dear friends and family so that they can also be alert and take all the precautions.*</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>

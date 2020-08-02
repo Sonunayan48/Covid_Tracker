@@ -170,6 +170,10 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            if (StateActivity.show_district_data == 0) {
+                showDataUnavailable = true;
+                return null;
+            }
             NetworkUtils networkUtils = new NetworkUtils();
             String jsonStr = networkUtils.makeRequestCall(DISTRICT_URL);
             if (jsonStr != null) {
@@ -199,6 +203,8 @@ public class StateDetailWithDistrictActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    showDataUnavailable = true;
+                } catch (Exception e) {
                     showDataUnavailable = true;
                 }
             }

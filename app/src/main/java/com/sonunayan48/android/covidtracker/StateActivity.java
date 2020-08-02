@@ -52,6 +52,8 @@ import java.util.Locale;
 public class StateActivity extends AppCompatActivity {
     public static final String BANNER_AD_PERIOD_KEY = "banner_ad_period";
     private static final String SHOW_ADS_KEY = "show_ads";
+    private static final String SHOW_DISTRICT_DATA_KEY = "show_district_data";
+    public static int show_district_data = 0;
     private static final String URLSTRINGINDIA = "https://covid-19india-api.herokuapp.com/v2.0/country_data";
     private static final String COUNTRY_DATA_API = "country_data_api";
     private static final String STATE_DATA_API = "state_data_api";
@@ -264,6 +266,7 @@ public class StateActivity extends AppCompatActivity {
         defaults.put(STATE_DATA_API, "");
         defaults.put(SHOW_ADS_KEY, 0);
         defaults.put(BANNER_AD_PERIOD_KEY, 1000);
+        defaults.put(SHOW_DISTRICT_DATA_KEY, 0);
         remoteConfig.setDefaults(defaults);
         remoteConfig.fetch().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -333,6 +336,7 @@ public class StateActivity extends AppCompatActivity {
         Double latestVersion = (Double) remoteConfig.getDouble(LATEST_VERSION_KEY);
         toShowAds = Integer.parseInt(remoteConfig.getString(SHOW_ADS_KEY));
         ADS_PERIOD = Integer.parseInt(remoteConfig.getString(BANNER_AD_PERIOD_KEY));
+        show_district_data = Integer.parseInt(remoteConfig.getString(SHOW_DISTRICT_DATA_KEY));
         PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
         String versionStr = pInfo.versionName;
         Double version = Double.parseDouble(versionStr);
