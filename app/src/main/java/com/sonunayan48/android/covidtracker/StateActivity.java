@@ -206,7 +206,7 @@ public class StateActivity extends AppCompatActivity {
             startActivity(downloadApp);
         }
     }
-
+    //initialize ads SDK
     public void initAds() {
         MobileAds.initialize(this);
     }
