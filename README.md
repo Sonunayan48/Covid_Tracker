@@ -1,4 +1,4 @@
-# Covid_Tracker
+# Covid_Tracker (APP DEPRECATED NOW)
 This android app show the latest data of COVID 19 across whole india, in state-wise as well as district-wise in india to help people better know the current number of COVID cases in their district and be alert.
 
 
